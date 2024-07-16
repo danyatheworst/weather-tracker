@@ -7,19 +7,16 @@ public class WebAppInitializer extends AbstractAnnotationConfigDispatcherServlet
 
     @Override
     protected Class<?>[] getRootConfigClasses() {
-        // Root application context configuration, if needed
-        return null;
+        return new Class<?>[] { HibernateConfig.class, SpringConfig.class };
     }
 
     @Override
     protected Class<?>[] getServletConfigClasses() {
-        // Configuration for the DispatcherServlet context
-        return new Class<?>[] {SpringConfig.class};
+        return new Class<?>[] { SpringConfig.class };
     }
 
     @Override
     protected String[] getServletMappings() {
-        // Map DispatcherServlet to the root URL
-        return new String[] {"/"};
+        return new String[] { "/" };
     }
 }
