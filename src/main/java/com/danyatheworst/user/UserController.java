@@ -37,6 +37,8 @@ public class UserController {
             return "sign-up";
         }
 
+
+
         return "index";
     }
 }
