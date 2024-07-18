@@ -2,6 +2,7 @@ package com.danyatheworst.user;
 
 import com.danyatheworst.common.ErrorResponseDto;
 import com.danyatheworst.exceptions.EntityAlreadyExistsException;
+import com.danyatheworst.exceptions.NotFoundException;
 import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -36,6 +37,15 @@ public class UserController {
         if (result.hasErrors()) {
             return "sign-in";
         }
+
+        try {
+            User user =  this.userService.findBy(signInRequestDto.getLogin());
+            int a = 123;
+        } catch (NotFoundException e) {
+            model.addAttribute("error", new ErrorResponseDto(e.getMessage()));
+            return "sign-in";
+        }
+
         return "redirect:/index";
     }
 
