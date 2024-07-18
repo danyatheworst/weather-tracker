@@ -19,7 +19,11 @@
                     id="login"
                     type="text"
             />
-            <div th:if="${#fields.hasErrors('login')}" th:errors="*{login}"></div>
+            <div
+                    th:if="${#fields.hasErrors('login')}"
+                    th:errors="*{login}">
+
+            </div>
         </li>
         <li>
             <label for="password">Password:</label>
@@ -28,17 +32,26 @@
                     id="password"
                     type="password"
             />
-            <div th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></div>
+            <div
+                    th:if="${#fields.hasErrors('password')}"
+                    th:errors="*{password}">
+            </div>
 
         </li>
         <li>
-            <label for="repeatedPassword">Repeat password:</label>
+            <label for="confirmPassword">Repeat password:</label>
             <input
-                    th:field="*{repeatedPassword}"
-                    id="repeatedPassword"
+                    th:field="*{confirmPassword}"
+                    id="confirmPassword"
                     type="password"
             />
-            <div th:if="${#fields.hasErrors('repeatedPassword')}" th:errors="*{repeatedPassword}"></div>
+            <div
+                    th:if="${#fields.hasErrors('confirmPassword')}"
+                    th:errors="*{confirmPassword}">
+            </div>
+            <div th:if="${error != null}">
+                <p th:text="${error.message}"></p>
+            </div>
 
         </li>
     </ul>

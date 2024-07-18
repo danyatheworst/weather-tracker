@@ -1,5 +1,7 @@
 package com.danyatheworst.user;
 
+import com.danyatheworst.common.ErrorResponseDto;
+import com.danyatheworst.exceptions.EntityAlreadyExistsException;
 import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -12,6 +14,11 @@ import java.util.Objects;
 
 @Controller
 public class UserController {
+    private final UserService userService;
+
+    public UserController(UserService userService) {
+        this.userService = userService;
+    }
 
     @GetMapping("/sign-up")
     public String signUp(Model model) {
@@ -24,22 +31,26 @@ public class UserController {
     @PostMapping("/sign-up")
     public String signUp(
             @Valid @ModelAttribute("signUpRequestDto") SignUpRequestDto signUpRequestDto,
-            BindingResult result
+            BindingResult result,
+            Model model
     ) {
-        if (!Objects.equals(signUpRequestDto.getPassword(), signUpRequestDto.getRepeatedPassword())) {
+        if (!Objects.equals(signUpRequestDto.getPassword(), signUpRequestDto.getConfirmPassword())) {
             result.rejectValue(
-                    "repeatedPassword",
+                    "confirmPassword",
                     "error.signUpRequestDto",
                     "Passwords do not match");
         }
 
-        int a = 123;
-
         if (result.hasErrors()) {
             return "sign-up";
         }
+        try {
+            this.userService.create(signUpRequestDto);
+            return "sign-in";
 
-
-        return "index";
+        } catch (EntityAlreadyExistsException e) {
+            model.addAttribute("error", new ErrorResponseDto(e.getMessage()));
+            return "sign-up";
+        }
     }
 }

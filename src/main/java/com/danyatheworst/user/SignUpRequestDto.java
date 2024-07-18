@@ -23,5 +23,5 @@ public class SignUpRequestDto {
     private String password;
 
     @NotBlank
-    private String repeatedPassword;
+    private String confirmPassword;
 }

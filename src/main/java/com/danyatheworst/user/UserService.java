@@ -13,8 +13,8 @@ public class UserService {
         this.userRepository = userRepository;
     }
 
-    public User create(SignUpRequestDto signUpRequestDto) {
+    public void create(SignUpRequestDto signUpRequestDto) {
         String encryptedPassword = passwordEncoder.encode(signUpRequestDto.getPassword());
-        return this.userRepository.save(new User(signUpRequestDto.getLogin(), encryptedPassword));
+        this.userRepository.save(new User(signUpRequestDto.getLogin(), encryptedPassword));
     }
 }
