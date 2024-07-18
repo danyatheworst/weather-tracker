@@ -1,12 +1,50 @@
-<html lang="en">
+<html>
 <head>
     <meta charset="UTF-8">
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>test</title>
+    <title>sign up</title>
 </head>
 <body>
-<p>tesadasdasda dsad ast</p>
+<form
+        th:action="@{/sign-up}"
+        th:object="${signUpRequestDto}"
+        method="post">
+    <ul>
+        <li>
+            <label for="login">Login:</label>
+            <input
+                    th:field="*{login}"
+                    id="login"
+                    type="text"
+            />
+            <div th:if="${#fields.hasErrors('login')}" th:errors="*{login}"></div>
+        </li>
+        <li>
+            <label for="password">Password:</label>
+            <input
+                    th:field="*{password}"
+                    id="password"
+                    type="password"
+            />
+            <div th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></div>
+
+        </li>
+        <li>
+            <label for="repeatedPassword">Repeat password:</label>
+            <input
+                    th:field="*{repeatedPassword}"
+                    id="repeatedPassword"
+                    type="password"
+            />
+            <div th:if="${#fields.hasErrors('repeatedPassword')}" th:errors="*{repeatedPassword}"></div>
+
+        </li>
+    </ul>
+    <div>
+        <button type="submit">Submit</button>
+    </div>
+</form>
 </body>
 </html>

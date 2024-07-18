@@ -18,18 +18,18 @@ public class UserRepository {
     }
 
     public User save(User user) {
-        try (Session session = this.sessionFactory.getCurrentSession()) {
-            session.persist(user);
-            return user;
-        } catch (HibernateException e) {
-            if (isUniqueConstraintViolation((ConstraintViolationException) e)) {
-                throw new EntityAlreadyExistException("That username is taken. Try another");
-            }
-            throw new DatabaseOperationException(
-                    "Failed to save player with login + " + user.getLogin() + " into database"
-            );
-        }
-
+//        try (Session session = this.sessionFactory.getCurrentSession()) {
+//            session.persist(user);
+//            return user;
+//        } catch (HibernateException e) {
+//            if (isUniqueConstraintViolation((ConstraintViolationException) e)) {
+//                throw new EntityAlreadyExistException("That username is taken. Try another");
+//            }
+//            throw new DatabaseOperationException(
+//                    "Failed to save player with login + " + user.getLogin() + " into database"
+//            );
+//        }
+        return new User();
     }
 
     private boolean isUniqueConstraintViolation(ConstraintViolationException e) {
