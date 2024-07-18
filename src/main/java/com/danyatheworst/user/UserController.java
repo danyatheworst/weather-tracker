@@ -20,6 +20,25 @@ public class UserController {
         this.userService = userService;
     }
 
+    @GetMapping("/sign-in")
+    public String signIp(Model model) {
+        model.addAttribute("signInRequestDto", new SignUpRequestDto());
+
+        return "sign-in";
+    }
+
+    @PostMapping("/sign-in")
+    public String signIp(
+            @Valid @ModelAttribute("signInRequestDto") SignInRequestDto signInRequestDto,
+            BindingResult result,
+            Model model
+    ) {
+        if (result.hasErrors()) {
+            return "sign-in";
+        }
+        return "redirect:/index";
+    }
+
     @GetMapping("/sign-up")
     public String signUp(Model model) {
         model.addAttribute("signUpRequestDto", new SignUpRequestDto());
@@ -46,7 +65,7 @@ public class UserController {
         }
         try {
             this.userService.create(signUpRequestDto);
-            return "sign-in";
+            return "redirect:/sign-in";
 
         } catch (EntityAlreadyExistsException e) {
             model.addAttribute("error", new ErrorResponseDto(e.getMessage()));

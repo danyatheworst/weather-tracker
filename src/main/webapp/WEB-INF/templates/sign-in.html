@@ -5,6 +5,42 @@
     <title>Sign in</title>
 </head>
 <body>
-Sign in page
+<form
+        th:action="@{/sign-in}"
+        th:object="${signInRequestDto}"
+        method="post">
+    <ul>
+        <li>
+            <label for="login">Login:</label>
+            <input
+                    th:field="*{login}"
+                    id="login"
+                    type="text"
+            />
+            <div
+                    th:if="${#fields.hasErrors('login')}"
+                    th:errors="*{login}">
+
+            </div>
+        </li>
+        <li>
+            <label for="password">Password:</label>
+            <input
+                    th:field="*{password}"
+                    id="password"
+                    type="password"
+            />
+            <div
+                    th:if="${#fields.hasErrors('password')}"
+                    th:errors="*{password}">
+            </div>
+
+        </li>
+    </ul>
+    <div>
+        <button type="submit">Sign in</button>
+    </div>
+</form>
+
 </body>
 </html>

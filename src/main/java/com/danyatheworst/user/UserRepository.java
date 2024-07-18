@@ -19,11 +19,9 @@ public class UserRepository {
         this.sessionFactory = sessionFactory;
     }
 
-    public User save(User user) {
+    public void save(User user) {
         try (Session session = sessionFactory.openSession()) {
-            int a = 123;
             session.save(user);
-            return user;
         } catch (ConstraintViolationException e) {
             throw new EntityAlreadyExistsException("That username is taken. Try another");
         } catch (HibernateException e) {
