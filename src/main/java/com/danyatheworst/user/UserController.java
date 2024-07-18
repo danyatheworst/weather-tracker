@@ -1,8 +1,10 @@
 package com.danyatheworst.user;
 
+import com.danyatheworst.AuthenticationService;
 import com.danyatheworst.common.ErrorResponseDto;
 import com.danyatheworst.exceptions.EntityAlreadyExistsException;
 import com.danyatheworst.exceptions.NotFoundException;
+import com.danyatheworst.session.CSession;
 import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,9 +18,11 @@ import java.util.Objects;
 @Controller
 public class UserController {
     private final UserService userService;
+    private final AuthenticationService authenticationService;
 
-    public UserController(UserService userService) {
+    public UserController(UserService userService, AuthenticationService authenticationService) {
         this.userService = userService;
+        this.authenticationService = authenticationService;
     }
 
     @GetMapping("/sign-in")
@@ -39,7 +43,8 @@ public class UserController {
         }
 
         try {
-            User user =  this.userService.findBy(signInRequestDto.getLogin());
+
+            CSession session = this.authenticationService.authenticate(signInRequestDto);
             int a = 123;
         } catch (NotFoundException e) {
             model.addAttribute("error", new ErrorResponseDto(e.getMessage()));
