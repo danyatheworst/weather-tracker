@@ -6,6 +6,8 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.ColumnDefault;
+import org.hibernate.annotations.Generated;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
@@ -20,8 +22,8 @@ import java.util.UUID;
 public class CSession {
 
     @Id
-    @GeneratedValue
-    @Column(columnDefinition = "UUID")
+    @Generated
+    @ColumnDefault("gen_random_uuid()")
     private UUID id;
 
     @ManyToOne

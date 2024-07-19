@@ -5,6 +5,8 @@ import com.danyatheworst.common.ErrorResponseDto;
 import com.danyatheworst.exceptions.EntityAlreadyExistsException;
 import com.danyatheworst.exceptions.NotFoundException;
 import com.danyatheworst.session.CSession;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -14,6 +16,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import java.util.Objects;
+import java.util.UUID;
 
 @Controller
 public class UserController {
@@ -36,16 +39,17 @@ public class UserController {
     public String signIp(
             @Valid @ModelAttribute("signInRequestDto") SignInRequestDto signInRequestDto,
             BindingResult result,
-            Model model
+            Model model,
+            HttpServletResponse response
     ) {
         if (result.hasErrors()) {
             return "sign-in";
         }
 
         try {
-
-            CSession session = this.authenticationService.authenticate(signInRequestDto);
-            int a = 123;
+            UUID sessionId = this.authenticationService.authenticate(signInRequestDto);
+            Cookie cookie = new Cookie("sessionId", sessionId.toString());
+            response.addCookie(cookie);
         } catch (NotFoundException e) {
             model.addAttribute("error", new ErrorResponseDto(e.getMessage()));
             return "sign-in";
@@ -57,7 +61,6 @@ public class UserController {
     @GetMapping("/sign-up")
     public String signUp(Model model) {
         model.addAttribute("signUpRequestDto", new SignUpRequestDto());
-        //check if user is not logged in and return the sign-up page
 
         return "sign-up";
     }

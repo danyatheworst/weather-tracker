@@ -9,6 +9,8 @@ import com.danyatheworst.user.UserRepository;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.UUID;
+
 @Service
 public class AuthenticationService {
     private final BCryptPasswordEncoder passwordEncoder;
@@ -21,7 +23,7 @@ public class AuthenticationService {
         this.sessionService = sessionService;
     }
 
-    public CSession authenticate(SignInRequestDto signInRequestDto) {
+    public UUID authenticate(SignInRequestDto signInRequestDto) {
         User user = this.userRepository
                 .findBy(signInRequestDto.getLogin())
                 .orElseThrow(() -> new NotFoundException("The username and/or password you specified are not correct"));
