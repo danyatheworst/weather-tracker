@@ -23,7 +23,7 @@ public class UserRepository {
     }
 
     public Optional<User> findBy(String login) {
-        try (Session session = sessionFactory.openSession()) {
+        try (Session session = this.sessionFactory.openSession()) {
             Query<User> query = session.createQuery("FROM User WHERE login = :login", User.class);
             query.setParameter("login", login);
             User user = query.uniqueResult();
@@ -36,7 +36,7 @@ public class UserRepository {
     }
 
     public void save(User user) {
-        try (Session session = sessionFactory.openSession()) {
+        try (Session session = this.sessionFactory.openSession()) {
             session.save(user);
         } catch (ConstraintViolationException e) {
             throw new EntityAlreadyExistsException("That username is taken. Try another");
