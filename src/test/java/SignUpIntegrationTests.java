@@ -4,11 +4,11 @@ import com.danyatheworst.user.SignUpRequestDto;
 import com.danyatheworst.user.User;
 import com.danyatheworst.user.UserRepository;
 import com.danyatheworst.user.UserService;
-import org.hibernate.exception.ConstraintViolationException;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.test.annotation.DirtiesContext;
+import org.springframework.test.context.event.annotation.AfterTestMethod;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 
 import java.util.Optional;
@@ -19,8 +19,8 @@ import static org.junit.jupiter.api.Assertions.*;
         {HibernateConfig.class,
         UserService.class,
         UserRepository.class,
-        BCryptPasswordEncoder.class}
-)
+        BCryptPasswordEncoder.class})
+@DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)
 public class SignUpIntegrationTests {
 
     @Autowired
@@ -45,7 +45,7 @@ public class SignUpIntegrationTests {
     @Test
     public void itShouldThrowExceptionWhenLoginAlreadyExists() {
         //given
-        SignUpRequestDto signUpRequestDto = new SignUpRequestDto("user0", "000000", "000000");
+        SignUpRequestDto signUpRequestDto = new SignUpRequestDto("user", "000000", "000000");
         this.userService.create(signUpRequestDto);
 
         //when and then

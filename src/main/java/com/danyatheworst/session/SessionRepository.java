@@ -2,7 +2,6 @@ package com.danyatheworst.session;
 
 import com.danyatheworst.exceptions.DatabaseOperationException;
 import com.danyatheworst.exceptions.NotFoundException;
-import com.danyatheworst.user.User;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -10,6 +9,7 @@ import org.hibernate.query.Query;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.UUID;
 
 @Repository
@@ -19,6 +19,16 @@ public class SessionRepository {
 
     public SessionRepository(SessionFactory sessionFactory) {
         this.sessionFactory = sessionFactory;
+    }
+
+    public List<CSession> findAll() {
+        try (Session session = this.sessionFactory.openSession()) {
+            return session.createQuery("FROM CSession sesion", CSession.class).getResultList();
+        } catch (HibernateException e) {
+            throw new DatabaseOperationException(
+                    "Failed to update session expiration time in database"
+            );
+        }
     }
 
     public CSession findBy(UUID sessionId) {
@@ -49,8 +59,8 @@ public class SessionRepository {
             //hibernate makes us to use transactions with createMutationQuery;
             session.beginTransaction();
             int updatedEntities = session.createMutationQuery(
-                    "UPDATE CSession s SET s.expiresAt = :expirationTime WHERE s.id = :sessionId"
-            )
+                            "UPDATE CSession s SET s.expiresAt = :expirationTime WHERE s.id = :sessionId"
+                    )
                     .setParameter("expirationTime", expirationTime)
                     .setParameter("sessionId", sessionId)
                     .executeUpdate();

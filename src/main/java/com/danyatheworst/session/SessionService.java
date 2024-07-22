@@ -4,6 +4,7 @@ import com.danyatheworst.user.User;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -12,6 +13,10 @@ public class SessionService {
 
     public SessionService(SessionRepository sessionRepository) {
         this.sessionRepository = sessionRepository;
+    }
+
+    public List<CSession> findAll() {
+        return this.sessionRepository.findAll();
     }
 
     public CSession findBy(UUID sessionId) {
