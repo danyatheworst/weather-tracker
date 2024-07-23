@@ -37,8 +37,9 @@ public class CookieInterceptor implements HandlerInterceptor {
                 if ("sessionId".equals(cookie.getName())) {
                     try {
                         UUID sessionId = this.fromString(cookie.getValue());
-                        this.sessionService.updateExpirationTime(sessionId);
                         CSession session = this.sessionService.findBy(sessionId);
+                        this.sessionService.checkExpiration(session);
+                        this.sessionService.updateExpirationTime(sessionId);
                         Cookie newCookie = new Cookie("sessionId", cookie.getValue());
                         newCookie.setMaxAge(this.getCookieMaxAge(session.getExpiresAt()));
                         response.addCookie(newCookie);

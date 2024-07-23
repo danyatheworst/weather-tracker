@@ -20,7 +20,8 @@ public class SessionService {
     }
 
     public CSession findBy(UUID sessionId) {
-        return this.sessionRepository.findBy(sessionId);
+        return this.sessionRepository.findBy(sessionId).orElseThrow(() ->
+                new NotFoundException("Session with " + sessionId + " is not found"));
     }
 
     public UUID create(User user) {

@@ -9,7 +9,7 @@ import org.hibernate.query.Query;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDateTime;
-import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Repository
@@ -21,21 +21,11 @@ public class SessionRepository {
         this.sessionFactory = sessionFactory;
     }
 
-    public List<CSession> findAll() {
-        try (Session session = this.sessionFactory.openSession()) {
-            return session.createQuery("FROM CSession sesion", CSession.class).getResultList();
-        } catch (HibernateException e) {
-            throw new DatabaseOperationException(
-                    "Failed to update session expiration time in database"
-            );
-        }
-    }
-
-    public CSession findBy(UUID sessionId) {
+    public Optional<CSession> findBy(UUID sessionId) {
         try (Session session = this.sessionFactory.openSession()) {
             Query<CSession> query = session.createQuery("FROM CSession s WHERE s.id = :sessionId", CSession.class);
             query.setParameter("sessionId", sessionId);
-            return query.uniqueResult();
+            return Optional.ofNullable(query.uniqueResult());
         } catch (HibernateException e) {
             throw new DatabaseOperationException(
                     "Failed to update session expiration time in database"
