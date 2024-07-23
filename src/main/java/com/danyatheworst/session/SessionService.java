@@ -28,10 +28,16 @@ public class SessionService {
         return this.sessionRepository.save(CSession);
     }
 
+    public void checkExpiration(CSession session) {
+        if (session.getExpiresAt().isBefore(LocalDateTime.now())) {
+            throw new NotFoundException("Session is expired");
+        }
+    }
+
     public void updateExpirationTime(UUID sessionId) {
         this.sessionRepository.update(sessionId, this.getExpirationTime());
     }
-    
+
     private LocalDateTime getExpirationTime() {
         return LocalDateTime.now().plusSeconds(this.sessionExpiration);
     }

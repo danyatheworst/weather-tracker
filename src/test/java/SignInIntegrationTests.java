@@ -83,15 +83,14 @@ public class SignInIntegrationTests {
     }
 
     @Test
-    void itShouldProvidesExpiredSession() {
+    void itShouldThrowExceptionIfSessionIsExpired() {
         //given
         this.userService.create(new SignUpRequestDto("user", "000000", "000000"));
         //create session with 0 sec expirationTime
         UUID sessionId = this.authenticationService.authenticate(new SignInRequestDto("user", "000000"));
+        CSession session = this.sessionService.findBy(sessionId);
 
         //when ant then
-        CSession session = this.sessionService.findBy(sessionId);
-        boolean isExpired = session.getExpiresAt().isBefore(LocalDateTime.now());
-        assertTrue(isExpired);
+        assertThrows(NotFoundException.class, () -> this.sessionService.checkExpiration(session));
     }
 }
