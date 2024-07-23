@@ -55,9 +55,8 @@ public class SignInIntegrationTests {
         SignInRequestDto signInRequestDto = new SignInRequestDto("userWhoDoesNotExist", "000000");
 
         //when and then
-        assertThrows(NotFoundException.class, () -> {
-            this.authenticationService.authenticate(signInRequestDto);
-        });
+        assertThrows(NotFoundException.class, () -> this.authenticationService.authenticate(signInRequestDto);
+        );
     }
 
     @Test
