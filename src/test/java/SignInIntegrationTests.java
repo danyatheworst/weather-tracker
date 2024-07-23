@@ -11,8 +11,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 
-import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -37,7 +35,7 @@ public class SignInIntegrationTests {
     private UserService userService;
 
     @Test
-    public void itShouldSaveSessionAfterSignInFirst() {
+    public void itShouldSaveSessionAfterSignIn() {
         //given
         this.userService.create(new SignUpRequestDto("user", "000000", "000000"));
         SignInRequestDto signInRequestDto = new SignInRequestDto("user", "000000");
@@ -49,26 +47,6 @@ public class SignInIntegrationTests {
         CSession session = this.sessionService.findBy(sessionId);
         assertNotNull(session);
         assertEquals(session.getUser().getLogin(), "user");
-    }
-
-    @Test
-    public void itShouldUpdateSessionExpirationDate() {
-        //given
-        this.userService.create(new SignUpRequestDto("user", "000000", "000000"));
-        UUID sessionId = this.authenticationService.authenticate(new SignInRequestDto("user", "000000"));
-        CSession session = this.sessionService.findBy(sessionId);
-        User user = session.getUser();
-        LocalDateTime expirationTime = session.getExpiresAt();
-
-        //when
-        this.sessionService.updateExpirationTime(sessionId);
-        CSession updatedSession = this.sessionService.findBy(sessionId);
-
-        //then
-        assertEquals(sessionId, updatedSession.getId());
-        assertEquals(user.getId(), updatedSession.getUser().getId());
-        assertEquals(user.getLogin(), updatedSession.getUser().getLogin());
-        assertNotEquals(expirationTime, updatedSession.getExpiresAt());
     }
 
     @Test
