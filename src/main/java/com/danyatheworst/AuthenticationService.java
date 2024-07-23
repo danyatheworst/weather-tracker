@@ -17,7 +17,9 @@ public class AuthenticationService {
     private final UserRepository userRepository;
     private final SessionService sessionService;
 
-    public AuthenticationService(BCryptPasswordEncoder passwordEncoder, UserRepository userRepository, SessionService sessionService) {
+    public AuthenticationService(BCryptPasswordEncoder passwordEncoder,
+                                 UserRepository userRepository,
+                                 SessionService sessionService) {
         this.passwordEncoder = passwordEncoder;
         this.userRepository = userRepository;
         this.sessionService = sessionService;

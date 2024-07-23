@@ -1,12 +1,10 @@
 import com.danyatheworst.AuthenticationService;
 import com.danyatheworst.config.HibernateConfig;
-import com.danyatheworst.exceptions.EntityAlreadyExistsException;
 import com.danyatheworst.exceptions.NotFoundException;
 import com.danyatheworst.session.CSession;
 import com.danyatheworst.session.SessionRepository;
 import com.danyatheworst.session.SessionService;
 import com.danyatheworst.user.*;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -14,6 +12,7 @@ import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -48,7 +47,7 @@ public class SignInIntegrationTests {
 
         //then
         CSession session = this.sessionService.findBy(sessionId);
-        assertNotNull(session, "Session should be created");
+        assertNotNull(session);
         assertEquals(session.getUser().getLogin(), "user");
     }
 
@@ -81,5 +80,18 @@ public class SignInIntegrationTests {
         assertThrows(NotFoundException.class, () -> {
             this.authenticationService.authenticate(signInRequestDto);
         });
+    }
+
+    @Test
+    void itShouldProvidesExpiredSession() {
+        //given
+        this.userService.create(new SignUpRequestDto("user", "000000", "000000"));
+        //create session with 0 sec expirationTime
+        UUID sessionId = this.authenticationService.authenticate(new SignInRequestDto("user", "000000"));
+
+        //when ant then
+        CSession session = this.sessionService.findBy(sessionId);
+        boolean isExpired = session.getExpiresAt().isBefore(LocalDateTime.now());
+        assertTrue(isExpired);
     }
 }

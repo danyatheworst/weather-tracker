@@ -1,22 +1,22 @@
 package com.danyatheworst.session;
 
+import com.danyatheworst.exceptions.NotFoundException;
 import com.danyatheworst.user.User;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.util.List;
 import java.util.UUID;
 
 @Service
 public class SessionService {
     private final SessionRepository sessionRepository;
 
+    @Value("${session_expiration_seconds}")
+    private int sessionExpiration;
+
     public SessionService(SessionRepository sessionRepository) {
         this.sessionRepository = sessionRepository;
-    }
-
-    public List<CSession> findAll() {
-        return this.sessionRepository.findAll();
     }
 
     public CSession findBy(UUID sessionId) {
@@ -31,8 +31,8 @@ public class SessionService {
     public void updateExpirationTime(UUID sessionId) {
         this.sessionRepository.update(sessionId, this.getExpirationTime());
     }
-
+    
     private LocalDateTime getExpirationTime() {
-        return LocalDateTime.now().plusHours(72);
+        return LocalDateTime.now().plusSeconds(this.sessionExpiration);
     }
 }
