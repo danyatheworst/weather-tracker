@@ -39,6 +39,10 @@ public class SessionService {
         this.sessionRepository.update(sessionId, this.getExpirationTime());
     }
 
+    public void removeBy(UUID sessionId) {
+        this.sessionRepository.removeBy(sessionId);
+    }
+
     private LocalDateTime getExpirationTime() {
         return LocalDateTime.now().plusSeconds(this.sessionExpiration);
     }

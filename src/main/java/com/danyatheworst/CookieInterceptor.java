@@ -70,7 +70,7 @@ public class CookieInterceptor implements HandlerInterceptor {
 
     private int getCookieMaxAge(LocalDateTime expirationTime) {
         Duration diff = Duration.between(expirationTime, LocalDateTime.now());
-        return (int)  diff.getSeconds();
+        return Math.abs((int) diff.getSeconds());
     }
 
     private UUID fromString(String string) {

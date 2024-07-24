@@ -66,4 +66,18 @@ public class SessionRepository {
             );
         }
     }
+
+    public void removeBy(UUID sessionId) {
+        try (Session session = this.sessionFactory.openSession()) {
+            //hibernate makes us to use transactions with createMutationQuery;
+            session.beginTransaction();
+            String hql = "DELETE FROM CSession WHERE id = :sessionId";
+            session.createMutationQuery(hql).setParameter("sessionId", sessionId).executeUpdate();
+            session.getTransaction().commit();
+        } catch (HibernateException e) {
+            throw new DatabaseOperationException(
+                    "Failed to update session expiration time in database"
+            );
+        }
+    }
 }
