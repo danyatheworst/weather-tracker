@@ -4,7 +4,6 @@ import com.danyatheworst.AuthenticationService;
 import com.danyatheworst.common.ErrorResponseDto;
 import com.danyatheworst.exceptions.DatabaseOperationException;
 import com.danyatheworst.exceptions.EntityAlreadyExistsException;
-import com.danyatheworst.exceptions.InvalidParameterException;
 import com.danyatheworst.exceptions.NotFoundException;
 import com.danyatheworst.session.SessionService;
 import jakarta.servlet.http.Cookie;
@@ -115,5 +114,3 @@ public class UserController {
         }
     }
 }
-
-//TODO: expires: Session instead of LocalDateTime

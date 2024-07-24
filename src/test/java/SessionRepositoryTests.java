@@ -8,6 +8,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
+import org.unbescape.css.CssEscape;
 
 import java.time.LocalDateTime;
 import java.util.Optional;
@@ -61,7 +62,6 @@ public class SessionRepositoryTests {
         this.underTest.update(sessionId, LocalDateTime.now().plusHours(72));
         Optional<CSession> updatedSession = this.underTest.findBy(sessionId);
 
-
         //then
         assertTrue(updatedSession.isPresent());
         assertEquals(sessionId, updatedSession.get().getId());
@@ -76,5 +76,22 @@ public class SessionRepositoryTests {
         UUID nonExistentSessionId = UUID.randomUUID();
         //then and when
         assertThrows(NotFoundException.class, () -> this.underTest.update(nonExistentSessionId, LocalDateTime.now()));
+    }
+
+    @Test
+    void itShouldRemoveSessionBySessionId() {
+        //given
+        this.setUp();
+        CSession session = new CSession(this.user, LocalDateTime.now().plusHours(72));
+        this.underTest.save(session);
+        UUID sessionId = session.getId();
+
+        //when
+        this.underTest.removeBy(sessionId);
+
+        //then
+        Optional<CSession> s = this.underTest.findBy(sessionId);
+
+        assertTrue(s.isEmpty());
     }
 }
