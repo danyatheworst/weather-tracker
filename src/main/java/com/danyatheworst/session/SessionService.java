@@ -19,17 +19,17 @@ public class SessionService {
         this.sessionRepository = sessionRepository;
     }
 
-    public CSession findBy(UUID sessionId) {
+    public Session findBy(UUID sessionId) {
         return this.sessionRepository.findBy(sessionId).orElseThrow(() ->
                 new NotFoundException("Session with " + sessionId + " is not found"));
     }
 
     public UUID create(User user) {
-        CSession CSession = new CSession(user, this.getExpirationTime());
-        return this.sessionRepository.save(CSession);
+        Session Session = new Session(user, this.getExpirationTime());
+        return this.sessionRepository.save(Session);
     }
 
-    public void checkExpiration(CSession session) {
+    public void checkExpiration(Session session) {
         if (session.getExpiresAt().isBefore(LocalDateTime.now())) {
             throw new NotFoundException("Session is expired");
         }

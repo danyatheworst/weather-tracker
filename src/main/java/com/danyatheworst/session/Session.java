@@ -17,9 +17,13 @@ import java.util.UUID;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "sessions")
-//CSession — custom session (hibernate session conflict)
-public class CSession {
+@Table(
+        name = "sessions",
+        indexes = {
+                @Index(name = "idx_expires_at", columnList = "expires_at")
+        }
+)
+public class Session {
 
     @Id
     @Generated
@@ -33,7 +37,7 @@ public class CSession {
     @Column(name = "expires_at", nullable = false)
     private LocalDateTime expiresAt;
 
-    public CSession(User user, LocalDateTime expiresAt) {
+    public Session(User user, LocalDateTime expiresAt) {
         this.user = user;
         this.expiresAt = expiresAt;
     }

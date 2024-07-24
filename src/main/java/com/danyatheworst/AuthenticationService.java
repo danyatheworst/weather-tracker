@@ -1,7 +1,6 @@
 package com.danyatheworst;
 
 import com.danyatheworst.exceptions.NotFoundException;
-import com.danyatheworst.session.CSession;
 import com.danyatheworst.session.SessionService;
 import com.danyatheworst.user.SignInRequestDto;
 import com.danyatheworst.user.User;

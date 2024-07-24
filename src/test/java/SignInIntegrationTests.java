@@ -1,7 +1,7 @@
 import com.danyatheworst.AuthenticationService;
 import com.danyatheworst.config.HibernateConfig;
 import com.danyatheworst.exceptions.NotFoundException;
-import com.danyatheworst.session.CSession;
+import com.danyatheworst.session.Session;
 import com.danyatheworst.session.SessionRepository;
 import com.danyatheworst.session.SessionService;
 import com.danyatheworst.user.*;
@@ -44,7 +44,7 @@ public class SignInIntegrationTests {
         UUID sessionId = this.authenticationService.authenticate(signInRequestDto);
 
         //then
-        CSession session = this.sessionService.findBy(sessionId);
+        Session session = this.sessionService.findBy(sessionId);
         assertNotNull(session);
         assertEquals(session.getUser().getLogin(), "user");
     }
@@ -64,7 +64,7 @@ public class SignInIntegrationTests {
         this.userService.create(new SignUpRequestDto("user", "000000", "000000"));
         //create session with 0 sec expirationTime
         UUID sessionId = this.authenticationService.authenticate(new SignInRequestDto("user", "000000"));
-        CSession session = this.sessionService.findBy(sessionId);
+        Session session = this.sessionService.findBy(sessionId);
 
         //when ant then
         assertThrows(NotFoundException.class, () -> this.sessionService.checkExpiration(session));

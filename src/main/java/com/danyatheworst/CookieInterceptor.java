@@ -2,7 +2,7 @@ package com.danyatheworst;
 
 import com.danyatheworst.exceptions.InvalidParameterException;
 import com.danyatheworst.exceptions.NotFoundException;
-import com.danyatheworst.session.CSession;
+import com.danyatheworst.session.Session;
 import com.danyatheworst.session.SessionService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -37,7 +37,7 @@ public class CookieInterceptor implements HandlerInterceptor {
                 if ("sessionId".equals(cookie.getName())) {
                     try {
                         UUID sessionId = this.fromString(cookie.getValue());
-                        CSession session = this.sessionService.findBy(sessionId);
+                        Session session = this.sessionService.findBy(sessionId);
                         this.sessionService.checkExpiration(session);
                         this.sessionService.updateExpirationTime(sessionId);
                         Cookie newCookie = new Cookie("sessionId", cookie.getValue());

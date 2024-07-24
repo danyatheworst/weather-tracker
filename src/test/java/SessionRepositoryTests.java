@@ -1,6 +1,6 @@
 import com.danyatheworst.config.HibernateConfig;
 import com.danyatheworst.exceptions.NotFoundException;
-import com.danyatheworst.session.CSession;
+import com.danyatheworst.session.Session;
 import com.danyatheworst.session.SessionRepository;
 import com.danyatheworst.user.User;
 import com.danyatheworst.user.UserRepository;
@@ -8,7 +8,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
-import org.unbescape.css.CssEscape;
 
 import java.time.LocalDateTime;
 import java.util.Optional;
@@ -37,11 +36,11 @@ public class SessionRepositoryTests {
     void itShouldFindSessionById() {
         //given
         this.setUp();
-        CSession session = new CSession(this.user, LocalDateTime.now().plusHours(72));
+        Session session = new Session(this.user, LocalDateTime.now().plusHours(72));
         UUID sessionId = this.underTest.save(session);
 
         //when
-        Optional<CSession> sessionFound = this.underTest.findBy(sessionId);
+        Optional<Session> sessionFound = this.underTest.findBy(sessionId);
 
         //then
         assertTrue(sessionFound.isPresent());
@@ -53,14 +52,14 @@ public class SessionRepositoryTests {
     public void itShouldUpdateSessionExpirationDate() {
         //given
         this.setUp();
-        CSession session = new CSession(this.user, LocalDateTime.now().plusHours(72));
+        Session session = new Session(this.user, LocalDateTime.now().plusHours(72));
         this.underTest.save(session);
         UUID sessionId = session.getId();
         LocalDateTime expirationTime = session.getExpiresAt();
 
         //when
         this.underTest.update(sessionId, LocalDateTime.now().plusHours(72));
-        Optional<CSession> updatedSession = this.underTest.findBy(sessionId);
+        Optional<Session> updatedSession = this.underTest.findBy(sessionId);
 
         //then
         assertTrue(updatedSession.isPresent());
@@ -82,7 +81,7 @@ public class SessionRepositoryTests {
     void itShouldRemoveSessionBySessionId() {
         //given
         this.setUp();
-        CSession session = new CSession(this.user, LocalDateTime.now().plusHours(72));
+        Session session = new Session(this.user, LocalDateTime.now().plusHours(72));
         this.underTest.save(session);
         UUID sessionId = session.getId();
 
@@ -90,7 +89,7 @@ public class SessionRepositoryTests {
         this.underTest.removeBy(sessionId);
 
         //then
-        Optional<CSession> s = this.underTest.findBy(sessionId);
+        Optional<Session> s = this.underTest.findBy(sessionId);
 
         assertTrue(s.isEmpty());
     }

@@ -3,7 +3,6 @@ package com.danyatheworst.session;
 import com.danyatheworst.exceptions.DatabaseOperationException;
 import com.danyatheworst.exceptions.NotFoundException;
 import org.hibernate.HibernateException;
-import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
 import org.springframework.stereotype.Repository;
@@ -21,9 +20,9 @@ public class SessionRepository {
         this.sessionFactory = sessionFactory;
     }
 
-    public Optional<CSession> findBy(UUID sessionId) {
-        try (Session session = this.sessionFactory.openSession()) {
-            Query<CSession> query = session.createQuery("FROM CSession s WHERE s.id = :sessionId", CSession.class);
+    public Optional<Session> findBy(UUID sessionId) {
+        try (var session = this.sessionFactory.openSession()) {
+            Query<Session> query = session.createQuery("FROM Session s WHERE s.id = :sessionId", Session.class);
             query.setParameter("sessionId", sessionId);
             return Optional.ofNullable(query.uniqueResult());
         } catch (HibernateException e) {
@@ -33,8 +32,8 @@ public class SessionRepository {
         }
     }
 
-    public UUID save(CSession cSession) {
-        try (Session session = this.sessionFactory.openSession()) {
+    public UUID save(Session cSession) {
+        try (var session = this.sessionFactory.openSession()) {
             session.save(cSession);
             return cSession.getId();
         } catch (HibernateException e) {
@@ -45,11 +44,11 @@ public class SessionRepository {
     }
 
     public void update(UUID sessionId, LocalDateTime expirationTime) {
-        try (Session session = this.sessionFactory.openSession()) {
+        try (var session = this.sessionFactory.openSession()) {
             //hibernate makes us to use transactions with createMutationQuery;
             session.beginTransaction();
             int updatedEntities = session.createMutationQuery(
-                            "UPDATE CSession s SET s.expiresAt = :expirationTime WHERE s.id = :sessionId"
+                            "UPDATE Session s SET s.expiresAt = :expirationTime WHERE s.id = :sessionId"
                     )
                     .setParameter("expirationTime", expirationTime)
                     .setParameter("sessionId", sessionId)
@@ -68,10 +67,10 @@ public class SessionRepository {
     }
 
     public void removeBy(UUID sessionId) {
-        try (Session session = this.sessionFactory.openSession()) {
+        try (var session = this.sessionFactory.openSession()) {
             //hibernate makes us to use transactions with createMutationQuery;
             session.beginTransaction();
-            String hql = "DELETE FROM CSession WHERE id = :sessionId";
+            String hql = "DELETE FROM Session WHERE id = :sessionId";
             session.createMutationQuery(hql).setParameter("sessionId", sessionId).executeUpdate();
             session.getTransaction().commit();
         } catch (HibernateException e) {
