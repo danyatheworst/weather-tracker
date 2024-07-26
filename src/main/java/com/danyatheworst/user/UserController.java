@@ -2,7 +2,7 @@ package com.danyatheworst.user;
 
 import com.danyatheworst.AuthenticationService;
 import com.danyatheworst.common.ErrorResponseDto;
-import com.danyatheworst.exceptions.DatabaseOperationException;
+import com.danyatheworst.exceptions.InternalServerException;
 import com.danyatheworst.exceptions.EntityAlreadyExistsException;
 import com.danyatheworst.exceptions.NotFoundException;
 import com.danyatheworst.session.SessionService;
@@ -108,7 +108,7 @@ public class UserController {
             response.addCookie(cookie);
             return "redirect:/sign-in";
         }
-        catch (DatabaseOperationException e) {
+        catch (InternalServerException e) {
             model.addAttribute("error", new ErrorResponseDto(e.getMessage()));
             return "redirect:" + request.getHeader("Referer");
         }

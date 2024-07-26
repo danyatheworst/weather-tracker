@@ -1,6 +1,6 @@
 package com.danyatheworst.user;
 
-import com.danyatheworst.exceptions.DatabaseOperationException;
+import com.danyatheworst.exceptions.InternalServerException;
 import com.danyatheworst.exceptions.EntityAlreadyExistsException;
 
 
@@ -29,7 +29,7 @@ public class UserRepository {
             User user = query.uniqueResult();
             return Optional.ofNullable(user);
         } catch (HibernateException e) {
-            throw new DatabaseOperationException(
+            throw new InternalServerException(
                     "Failed to fetch user with login " + login + " from the database"
             );
         }
@@ -41,7 +41,7 @@ public class UserRepository {
         } catch (ConstraintViolationException e) {
             throw new EntityAlreadyExistsException("That username is taken. Try another");
         } catch (HibernateException e) {
-            throw new DatabaseOperationException(
+            throw new InternalServerException(
                     "Failed to save user with login " + user.getLogin() + " into database"
             );
         }

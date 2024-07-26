@@ -1,6 +1,6 @@
 package com.danyatheworst.session;
 
-import com.danyatheworst.exceptions.DatabaseOperationException;
+import com.danyatheworst.exceptions.InternalServerException;
 import com.danyatheworst.exceptions.NotFoundException;
 import org.hibernate.HibernateException;
 import org.hibernate.SessionFactory;
@@ -26,7 +26,7 @@ public class SessionRepository {
             query.setParameter("sessionId", sessionId);
             return Optional.ofNullable(query.uniqueResult());
         } catch (HibernateException e) {
-            throw new DatabaseOperationException(
+            throw new InternalServerException(
                     "Failed to update session expiration time in database"
             );
         }
@@ -37,7 +37,7 @@ public class SessionRepository {
             session.save(cSession);
             return cSession.getId();
         } catch (HibernateException e) {
-            throw new DatabaseOperationException(
+            throw new InternalServerException(
                     "Failed to save session with user login " + cSession.getUser().getLogin() + " into database"
             );
         }
@@ -60,7 +60,7 @@ public class SessionRepository {
             }
 
         } catch (HibernateException e) {
-            throw new DatabaseOperationException(
+            throw new InternalServerException(
                     "Failed to update session expiration time in database"
             );
         }
@@ -74,7 +74,7 @@ public class SessionRepository {
             session.createMutationQuery(hql).setParameter("sessionId", sessionId).executeUpdate();
             session.getTransaction().commit();
         } catch (HibernateException e) {
-            throw new DatabaseOperationException(
+            throw new InternalServerException(
                     "Failed to update session expiration time in database"
             );
         }

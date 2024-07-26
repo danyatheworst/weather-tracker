@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Search results</title>
+</head>
+<body>
+<form
+        th:action="@{/search}"
+        method="get"
+>
+            <label for="search">Search:</label>
+            <input
+                   name="q"
+                    id="search"
+                    type="text"
+            />
+<!--            <div-->
+<!--                    th:if="${#fields.hasErrors('password')}"-->
+<!--                    th:errors="*{password}">-->
+<!--            </div>-->
+    <div>
+        <button type="submit">Search</button>
+    </div>
+</form>
+    <ul>
+        <li th:each="location : ${locationApiResponseDto}">
+            <div th:text="${location.getName()}"></div>
+            <div th:text="${location.getState()}"></div>
+        </li>
+    </ul>
+</body>
+</html>

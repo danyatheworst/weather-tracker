@@ -5,10 +5,8 @@ import com.danyatheworst.exceptions.InternalServerException;
 import com.danyatheworst.exceptions.OpenWeatherApiException;
 import com.danyatheworst.openWeather.weatherApiResponse.ApiException;
 import com.danyatheworst.openWeather.weatherApiResponse.WeatherApiResponseDto;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.json.JsonMapper;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
