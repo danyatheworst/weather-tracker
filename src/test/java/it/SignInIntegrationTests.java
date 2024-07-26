@@ -1,3 +1,5 @@
+package it;
+
 import com.danyatheworst.AuthenticationService;
 import com.danyatheworst.config.HibernateConfig;
 import com.danyatheworst.exceptions.NotFoundException;

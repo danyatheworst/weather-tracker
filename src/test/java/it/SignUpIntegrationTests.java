@@ -1,3 +1,5 @@
+package it;
+
 import com.danyatheworst.config.HibernateConfig;
 import com.danyatheworst.exceptions.EntityAlreadyExistsException;
 import com.danyatheworst.user.SignUpRequestDto;
@@ -8,7 +10,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.test.annotation.DirtiesContext;
-import org.springframework.test.context.event.annotation.AfterTestMethod;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 
 import java.util.Optional;
