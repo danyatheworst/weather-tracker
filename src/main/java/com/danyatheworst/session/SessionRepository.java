@@ -32,13 +32,13 @@ public class SessionRepository {
         }
     }
 
-    public UUID save(Session cSession) {
-        try (var session = this.sessionFactory.openSession()) {
-            session.save(cSession);
-            return cSession.getId();
+    public UUID save(Session session) {
+        try (var s = this.sessionFactory.openSession()) {
+            s.save(session);
+            return session.getId();
         } catch (HibernateException e) {
             throw new InternalServerException(
-                    "Failed to save session with user login " + cSession.getUser().getLogin() + " into database"
+                    "Failed to save session with user login " + session.getUser().getLogin() + " into database"
             );
         }
     }

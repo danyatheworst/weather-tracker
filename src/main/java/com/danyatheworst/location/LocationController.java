@@ -1,6 +1,6 @@
 package com.danyatheworst.location;
 
-import com.danyatheworst.openWeather.LocationApiResponseDto;
+import com.danyatheworst.openWeather.LocationApiDto;
 import com.danyatheworst.openWeather.OpenWeatherApiService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -20,9 +20,8 @@ public class LocationController {
 
     @GetMapping("/search")
     public String search(@RequestParam(name = "q", defaultValue = "") String q, Model model)  {
-        //TODO: names consisting 2+ words
         try {
-            List<LocationApiResponseDto> locations = this.openWeatherApiService.findLocationsBy(q);
+            List<LocationApiDto> locations = this.openWeatherApiService.findLocationsBy(q);
             model.addAttribute("locationApiResponseDto", locations);
             return "search";
 

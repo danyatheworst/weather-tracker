@@ -34,10 +34,11 @@ public class OpenWeatherApiService {
         this.httpClient = httpClient;
     }
 
-    public List<LocationApiResponseDto> findLocationsBy(String name) {
+    public List<LocationApiDto> findLocationsBy(String name) {
         try {
             URI uri = OpenWeatherApiService.buildUriForGeocodingRequest(name);
-            return this.jsonMapper.readValue(this.getResponseBody(uri), new TypeReference<>() {});
+            List<LocationApiDto> locations = this.jsonMapper.readValue(this.getResponseBody(uri), new TypeReference<>() {});
+            return locations;
         } catch (IOException | InterruptedException e) {
             throw new InternalServerException(e.getMessage());
         }

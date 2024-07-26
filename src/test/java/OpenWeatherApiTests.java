@@ -1,5 +1,5 @@
 import com.danyatheworst.exceptions.OpenWeatherApiException;
-import com.danyatheworst.openWeather.LocationApiResponseDto;
+import com.danyatheworst.openWeather.LocationApiDto;
 import com.danyatheworst.openWeather.OpenWeatherApiService;
 import com.danyatheworst.openWeather.weatherApiResponse.WeatherApiResponseDto;
 import org.junit.jupiter.api.Test;
@@ -194,7 +194,7 @@ public class OpenWeatherApiTests {
         OpenWeatherApiService openWeatherApiService = new OpenWeatherApiService(httpClient);
 
         //when
-        List<LocationApiResponseDto> locations = openWeatherApiService.findLocationsBy("Rome");
+        List<LocationApiDto> locations = openWeatherApiService.findLocationsBy("Rome");
 
         //then
         assertEquals(5, locations.size());
