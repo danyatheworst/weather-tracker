@@ -15,7 +15,6 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import java.util.Objects;
@@ -42,7 +41,7 @@ public class UserController {
 
     @PostMapping("/sign-in")
     public String signIp(
-            @Valid @ModelAttribute("signInRequestDto") SignInRequestDto signInRequestDto,
+            @Valid SignInRequestDto signInRequestDto,
             BindingResult result,
             Model model,
             HttpServletResponse response
@@ -72,7 +71,7 @@ public class UserController {
 
     @PostMapping("/sign-up")
     public String signUp(
-            @Valid @ModelAttribute("signUpRequestDto") SignUpRequestDto signUpRequestDto,
+            SignUpRequestDto signUpRequestDto,
             BindingResult result,
             Model model
     ) {
@@ -107,8 +106,7 @@ public class UserController {
             cookie.setMaxAge(0);
             response.addCookie(cookie);
             return "redirect:/sign-in";
-        }
-        catch (InternalServerException e) {
+        } catch (InternalServerException e) {
             model.addAttribute("error", new ErrorResponseDto(e.getMessage()));
             return "redirect:" + request.getHeader("Referer");
         }

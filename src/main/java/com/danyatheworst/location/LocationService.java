@@ -1,10 +1,8 @@
 package com.danyatheworst.location;
 
-import com.danyatheworst.openWeather.LocationApiDto;
 import com.danyatheworst.user.User;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
 
 @Service
 public class LocationService {
@@ -15,8 +13,13 @@ public class LocationService {
         this.locationRepository = locationRepository;
     }
 
-    public Long save(LocationApiDto locationApiDto, User user) {
-        Location location = new Location(locationApiDto.getName(), locationApiDto.getLat(), locationApiDto.getLon(), user);
+    public Long save(AddingLocationRequestDto addingLocationRequestDto, User user) {
+        Location location = new Location(
+                addingLocationRequestDto.getName(),
+                addingLocationRequestDto.getLat(),
+                addingLocationRequestDto.getLon(),
+                user
+        );
         return this.locationRepository.save(location);
     }
 }

@@ -11,13 +11,13 @@
 >
             <label for="search">Search:</label>
             <input
-                   name="q"
+                    name="q"
                     id="search"
                     type="text"
             />
 <!--            <div-->
 <!--                    th:if="${#fields.hasErrors('password')}"-->
-<!--                    th:errors="*{password}">-->
+<!--                    th:errors="*{}">-->
 <!--            </div>-->
     <div>
         <button type="submit">Search</button>
@@ -27,6 +27,15 @@
         <li th:each="location : ${locationApiResponseDto}">
             <div th:text="${location.getName()}"></div>
             <div th:text="${location.getState()}"></div>
+            <form
+                    th:action="@{/search}"
+                    method="post"
+            >
+                <input th:value="${location.getName()}" name="name" type="hidden" />
+                <input th:value="${location.getLat()}" name="lat" type="hidden" />
+                <input th:value="${location.getLon()}" name="lon" type="hidden" />
+                <button type="submit">Submit</button>
+            </form>
         </li>
     </ul>
 </body>

@@ -2,6 +2,7 @@ package it;
 
 import com.danyatheworst.config.HibernateConfig;
 import com.danyatheworst.exceptions.EntityAlreadyExistsException;
+import com.danyatheworst.location.AddingLocationRequestDto;
 import com.danyatheworst.location.Location;
 import com.danyatheworst.location.LocationRepository;
 import com.danyatheworst.location.LocationService;
@@ -37,17 +38,15 @@ public class LocationIntegrationTests {
     void itShouldThrowEntityAlreadyExistExceptionWhenSaveNotUniqueTrackedLocation() {
         //given
         this.userRepository.save(new User("user1", "000000"));
-        LocationApiDto locationApiDto = new LocationApiDto(
+        AddingLocationRequestDto addingLocationRequestDto = new AddingLocationRequestDto(
                 "Rome",
                 new BigDecimal("41.8933203"),
-                new BigDecimal("12.4829321"),
-                "IT",
-                "Lazio"
+                new BigDecimal("12.4829321")
         );
         User user = this.userRepository.findBy("user1").get();
 
         //when and then
-        this.locationService.save(locationApiDto, user);
-        assertThrows(EntityAlreadyExistsException.class, () -> this.locationService.save(locationApiDto, user));
+        this.locationService.save(addingLocationRequestDto, user);
+        assertThrows(EntityAlreadyExistsException.class, () -> this.locationService.save(addingLocationRequestDto, user));
     }
 }
