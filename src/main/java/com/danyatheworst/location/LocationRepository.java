@@ -5,6 +5,7 @@ import com.danyatheworst.exceptions.InternalServerException;
 import org.hibernate.HibernateException;
 import org.hibernate.SessionFactory;
 import org.hibernate.exception.ConstraintViolationException;
+import org.postgresql.util.PSQLException;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -36,10 +37,17 @@ public class LocationRepository {
         try (var session = this.sessionFactory.openSession()) {
             session.save(location);
             return location.getId();
-        } catch (ConstraintViolationException e) {
-            //TODO: deep check
-            throw new EntityAlreadyExistsException("Location " + location.getName() + " is being tracked");
-        } catch (HibernateException e) {
+        } catch (Exception e) {
+            Throwable cause = e.getCause();
+
+            if (cause instanceof PSQLException psqlException) {
+                if ("23505".equals(psqlException.getSQLState())) {
+                    throw new EntityAlreadyExistsException(
+                            "Location " + location.getName() + ", " + location.getCountry() + " already being tracked"
+                    );
+                }
+            }
+
             throw new InternalServerException(
                     "Failed to save location with name " + location.getName() + " into database"
             );

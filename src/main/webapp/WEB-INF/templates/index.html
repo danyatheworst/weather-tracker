@@ -6,7 +6,10 @@
 </head>
 <body>
 <div th:replace="fragments/header"></div>
-<ul>
+<div th:if="${weatherLocationsDto.size() == 0}">
+    <div>You have not added any location to track yet</div>
+</div>
+<ul th:if="${weatherLocationsDto.size() > 0}">
     <li th:each="weatherLocation : ${weatherLocationsDto}">
         <div th:text="${weatherLocation.getLocationInfo().getName()}"></div>
         <div th:text="${weatherLocation.getLocationInfo().getCountry()}"></div>

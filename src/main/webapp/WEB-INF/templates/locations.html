@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Search results</title>
+</head>
+<body>
+<form
+        th:action="@{/locations}"
+        method="get"
+>
+    <label for="search">Search:</label>
+    <input
+            name="q"
+            id="search"
+            type="text"
+    />
+    <div>
+        <button type="submit">Locations</button>
+    </div>
+</form>
+<div th:if="${locationApiResponseDto != null}">
+    <div th:if="${locationApiResponseDto.size() == 0}">
+        <div>nothing has been found</div>
+    </div>
+    <ul th:if="${locationApiResponseDto.size() > 0}">
+        <li th:each="location : ${locationApiResponseDto}">
+            <div th:text="${location.getName()}"></div>
+            <div th:text="${location.getCountry()}"></div>
+            <div th:text="${location.getState()}"></div>
+            <form
+                    th:action="@{/locations}"
+                    method="post"
+            >
+                <input th:value="${location.getName()}" name="name" type="hidden"/>
+                <input th:value="${location.getLat()}" name="lat" type="hidden"/>
+                <input th:value="${location.getLon()}" name="lon" type="hidden"/>
+                <input th:value="${location.getCountry()}" name="country" type="hidden"/>
+                <input th:value="${location.getState()}" name="state" type="hidden"/>
+                <button type="submit">add</button>
+            </form>
+        </li>
+    </ul>
+</div>
+<div th:if="${errorResponseDto != null}">
+    <div th:text="${errorResponseDto.message}"></div>
+</div>
+</body>
+</html>
