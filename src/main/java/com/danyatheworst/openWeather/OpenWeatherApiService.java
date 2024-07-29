@@ -4,7 +4,7 @@ package com.danyatheworst.openWeather;
 import com.danyatheworst.exceptions.InternalServerException;
 import com.danyatheworst.exceptions.OpenWeatherApiException;
 import com.danyatheworst.openWeather.weatherApiResponse.ApiException;
-import com.danyatheworst.openWeather.weatherApiResponse.WeatherApiResponseDto;
+import com.danyatheworst.openWeather.weatherApiResponse.WeatherApiResponse;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.json.JsonMapper;
 import org.springframework.stereotype.Service;
@@ -37,14 +37,13 @@ public class OpenWeatherApiService {
     public List<LocationApiDto> findLocationsBy(String name) {
         try {
             URI uri = OpenWeatherApiService.buildUriForGeocodingRequest(name);
-            List<LocationApiDto> locations = this.jsonMapper.readValue(this.getResponseBody(uri), new TypeReference<>() {});
-            return locations;
+            return this.jsonMapper.readValue(this.getResponseBody(uri), new TypeReference<>() {});
         } catch (IOException | InterruptedException e) {
             throw new InternalServerException(e.getMessage());
         }
     }
 
-    public WeatherApiResponseDto getWeatherBy(BigDecimal lat, BigDecimal lon) {
+    public WeatherApiResponse getWeatherBy(BigDecimal lat, BigDecimal lon) {
         try {
             URI uri = OpenWeatherApiService.buildUriForWeatherRequest(lat, lon);
             return this.jsonMapper.readValue(this.getResponseBody(uri), new TypeReference<>() {});

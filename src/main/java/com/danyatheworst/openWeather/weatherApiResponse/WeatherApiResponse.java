@@ -8,7 +8,7 @@ import java.util.List;
 
 @Getter
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class WeatherApiResponseDto {
+public class WeatherApiResponse {
     @JsonProperty("weather")
     private List<Weather> weather;
 
@@ -17,9 +17,6 @@ public class WeatherApiResponseDto {
 
     @JsonProperty("wind")
     private Wind wind;
-
-    @JsonProperty("clouds")
-    private Clouds clouds;
 
 //    @JsonProperty("dt")
 //    private LocalDateTime date;

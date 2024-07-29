@@ -7,9 +7,6 @@ import lombok.Getter;
 @Getter
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Weather {
-    @JsonProperty("id")
-    private Integer id;
-
     @JsonProperty("main")
     private String currentState;
 

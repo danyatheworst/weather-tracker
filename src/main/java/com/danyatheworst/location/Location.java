@@ -32,14 +32,22 @@ public class Location {
     @Column(nullable = false)
     private BigDecimal lon;
 
+    @Column(nullable = false)
+    private String country;
+
+    @Column
+    private String state;
+
     @ManyToOne
     @JoinColumn(name = "user_Id", nullable = false)
     private User user;
 
-    public Location(String name, BigDecimal lat, BigDecimal lon, User user) {
+    public Location(String name, BigDecimal lat, BigDecimal lon, User user, String country, String state) {
         this.name = name;
         this.lat = lat;
         this.lon = lon;
         this.user = user;
+        this.country = country;
+        this.state = state;
     }
 }

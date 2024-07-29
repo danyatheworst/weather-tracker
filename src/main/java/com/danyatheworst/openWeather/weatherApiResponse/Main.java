@@ -12,16 +12,4 @@ public class Main {
 
     @JsonProperty("feels_like")
     private Double temperatureFeelsLike;
-
-    @JsonProperty("pressure")
-    private Integer pressure;
-
-    @JsonProperty("humidity")
-    private Integer humidity;
-
-    @JsonProperty("temp_min")
-    private Double temperatureMin;
-
-    @JsonProperty("temp_max")
-    private Double temperatureMax;
 }

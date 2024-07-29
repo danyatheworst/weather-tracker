@@ -1,4 +1,4 @@
-package com.danyatheworst.location;
+package com.danyatheworst.location.dto;
 
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -12,7 +12,7 @@ import java.math.BigDecimal;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class AddingLocationRequestDto {
+public class CreateLocationRequestDto {
     @NotNull
     private String name;
 
@@ -21,4 +21,9 @@ public class AddingLocationRequestDto {
 
     @NotNull
     private BigDecimal lon;
+
+    @NotNull
+    private String country;
+
+    private String state;
 }

@@ -27,13 +27,16 @@
         <li th:each="location : ${locationApiResponseDto}">
             <div th:text="${location.getName()}"></div>
             <div th:text="${location.getState()}"></div>
+            <div th:text="${location.getCountry()}"></div>
             <form
-                    th:action="@{/search}"
+                    th:action="@{/locations}"
                     method="post"
             >
                 <input th:value="${location.getName()}" name="name" type="hidden" />
                 <input th:value="${location.getLat()}" name="lat" type="hidden" />
                 <input th:value="${location.getLon()}" name="lon" type="hidden" />
+                <input th:value="${location.getCountry()}" name="country" type="hidden" />
+                <input th:value="${location.getState()}" name="state" type="hidden" />
                 <button type="submit">Submit</button>
             </form>
         </li>

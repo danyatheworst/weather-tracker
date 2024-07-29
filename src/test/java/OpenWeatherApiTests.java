@@ -1,7 +1,7 @@
 import com.danyatheworst.exceptions.OpenWeatherApiException;
 import com.danyatheworst.openWeather.LocationApiDto;
 import com.danyatheworst.openWeather.OpenWeatherApiService;
-import com.danyatheworst.openWeather.weatherApiResponse.WeatherApiResponseDto;
+import com.danyatheworst.openWeather.weatherApiResponse.WeatherApiResponse;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
@@ -259,7 +259,7 @@ public class OpenWeatherApiTests {
         OpenWeatherApiService openWeatherApiService = new OpenWeatherApiService(httpClient);
 
         //when
-        WeatherApiResponseDto weather = openWeatherApiService.getWeatherBy(
+        WeatherApiResponse weather = openWeatherApiService.getWeatherBy(
                 new BigDecimal("41.8933203"), new BigDecimal("12.4829321")
         );
 

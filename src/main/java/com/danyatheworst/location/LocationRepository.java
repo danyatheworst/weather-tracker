@@ -18,12 +18,16 @@ public class LocationRepository {
         this.sessionFactory = sessionFactory;
     }
 
-    public List<Location> findAll() {
+    public List<Location> findAllBy(Long userId) {
         try (var session = this.sessionFactory.openSession()) {
-            return session.createQuery("from Location", Location.class).getResultList();
+            return session.createQuery(
+                            "FROM Location l WHERE l.user.id = :userId ORDER BY l.id DESC",
+                            Location.class)
+                    .setParameter("userId", userId)
+                    .getResultList();
         } catch (HibernateException e) {
             throw new InternalServerException(
-                    "Failed to fetch all locations from database"
+                    "Failed to fetch all locations of user with id " + userId + " from database"
             );
         }
     }
@@ -33,7 +37,8 @@ public class LocationRepository {
             session.save(location);
             return location.getId();
         } catch (ConstraintViolationException e) {
-            throw new EntityAlreadyExistsException("Location " + location.getName() + "is being tracked");
+            //TODO: deep check
+            throw new EntityAlreadyExistsException("Location " + location.getName() + " is being tracked");
         } catch (HibernateException e) {
             throw new InternalServerException(
                     "Failed to save location with name " + location.getName() + " into database"

@@ -6,5 +6,17 @@
 </head>
 <body>
 <div th:replace="fragments/header"></div>
+<ul>
+    <li th:each="weatherLocation : ${weatherLocationsDto}">
+        <div th:text="${weatherLocation.getLocationInfo().getName()}"></div>
+        <div th:text="${weatherLocation.getLocationInfo().getCountry()}"></div>
+        <div th:text="${weatherLocation.getLocationInfo().getState()}"></div>
+        <div th:text="${weatherLocation.getWeatherInfo().getTemperature()}"></div>
+        <div th:text="${weatherLocation.getWeatherInfo().getTemperatureFeelsLike()}"></div>
+        <div th:text="${weatherLocation.getWeatherInfo().getWeatherState()}"></div>
+        <div th:text="${weatherLocation.getWeatherInfo().getDescription()}"></div>
+        <div th:text="${weatherLocation.getWeatherInfo().getWindSpeed()}"></div>
+    </li>
+</ul>
 </body>
 </html>
