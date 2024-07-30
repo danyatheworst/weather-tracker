@@ -2,6 +2,7 @@ package com.danyatheworst.location;
 
 import com.danyatheworst.common.ErrorResponseDto;
 import com.danyatheworst.exceptions.EntityAlreadyExistsException;
+import com.danyatheworst.exceptions.InternalServerException;
 import com.danyatheworst.exceptions.OpenWeatherApiException;
 import com.danyatheworst.location.dto.*;
 import com.danyatheworst.openWeather.LocationApiDto;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+
 
 @Controller
 public class LocationController {
