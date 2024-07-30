@@ -45,7 +45,7 @@ public class CookieInterceptor implements HandlerInterceptor {
                         response.addCookie(newCookie);
                         request.setAttribute("user", session.getUser());
                         if (this.isSigningPage(uri)) {
-                            response.sendRedirect("/index");
+                            response.sendRedirect("/");
                             return false;
                         }
                         return true;

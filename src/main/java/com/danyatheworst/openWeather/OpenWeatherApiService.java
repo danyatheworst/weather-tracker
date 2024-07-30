@@ -7,6 +7,7 @@ import com.danyatheworst.openWeather.weatherApiResponse.ApiException;
 import com.danyatheworst.openWeather.weatherApiResponse.WeatherApiResponse;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.json.JsonMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -37,7 +38,8 @@ public class OpenWeatherApiService {
     public List<LocationApiDto> findLocationsBy(String name) {
         try {
             URI uri = OpenWeatherApiService.buildUriForGeocodingRequest(name);
-            return this.jsonMapper.readValue(this.getResponseBody(uri), new TypeReference<>() {});
+            return this.jsonMapper.readValue(this.getResponseBody(uri), new TypeReference<>() {
+            });
         } catch (IOException | InterruptedException e) {
             throw new InternalServerException(e.getMessage());
         }
@@ -46,7 +48,8 @@ public class OpenWeatherApiService {
     public WeatherApiResponse getWeatherBy(BigDecimal lat, BigDecimal lon) {
         try {
             URI uri = OpenWeatherApiService.buildUriForWeatherRequest(lat, lon);
-            return this.jsonMapper.readValue(this.getResponseBody(uri), new TypeReference<>() {});
+            return this.jsonMapper.readValue(this.getResponseBody(uri), new TypeReference<>() {
+            });
         } catch (IOException | InterruptedException e) {
             throw new InternalServerException(e.getMessage());
         }
@@ -54,7 +57,7 @@ public class OpenWeatherApiService {
 
     public static URI buildUriForGeocodingRequest(String locationName) {
         String encodedName = URLEncoder.encode(locationName, StandardCharsets.UTF_8);
-        String url = BASE_API_URL + GEOCODING_API_URL_SUFFIX  + encodedName + "&limit=5" + "&appid=" + APP_ID;
+        String url = BASE_API_URL + GEOCODING_API_URL_SUFFIX + encodedName + "&limit=5" + "&appid=" + APP_ID;
         return URI.create(url);
     }
 
@@ -63,14 +66,14 @@ public class OpenWeatherApiService {
     }
 
     private String getResponseBody(URI uri) throws IOException, InterruptedException {
-            HttpRequest request = HttpRequest.newBuilder(uri).build();
+        HttpRequest request = HttpRequest.newBuilder(uri).build();
 
-            HttpResponse<String> response = this.httpClient.send(request, HttpResponse.BodyHandlers.ofString());
-            if (response.statusCode() != 200) {
-                ApiException apiException = this.jsonMapper.readValue(response.body(), new TypeReference<>() {
-                });
-                throw new OpenWeatherApiException(apiException.getMessage(), apiException.getCod());
-            }
-            return response.body();
+        HttpResponse<String> response = this.httpClient.send(request, HttpResponse.BodyHandlers.ofString());
+        if (response.statusCode() != 200) {
+            ApiException apiException = this.jsonMapper.readValue(response.body(), new TypeReference<>() {
+            });
+            throw new OpenWeatherApiException(apiException.getMessage(), apiException.getCod());
+        }
+        return response.body();
     }
 }

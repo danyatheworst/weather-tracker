@@ -20,6 +20,7 @@
             <div th:text="${weatherLocation.getWeatherInfo().getWeatherState()}"></div>
             <div th:text="${weatherLocation.getWeatherInfo().getDescription()}"></div>
             <div th:text="${weatherLocation.getWeatherInfo().getWindSpeed()}"></div>
+            <div th:text="${weatherLocation.getWeatherInfo().getDate()}"></div>
             <form
                     th:action="@{/}"
                     method="post"

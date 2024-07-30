@@ -14,6 +14,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -110,6 +111,7 @@ public class LocationController {
         Double windSpeed = weather.getWind().getSpeed();
         String weatherState = weather.getWeather().get(0).getCurrentState();
         String description = weather.getWeather().get(0).getDescription();
-        return new WeatherInfo(temperature, temperatureFeelsLike, windSpeed, weatherState, description);
+        LocalDateTime dateTime = weather.getDate();
+        return new WeatherInfo(temperature, temperatureFeelsLike, windSpeed, weatherState, description, dateTime);
     }
 }

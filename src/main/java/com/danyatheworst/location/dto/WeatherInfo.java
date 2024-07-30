@@ -3,6 +3,8 @@ package com.danyatheworst.location.dto;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
+import java.time.LocalDateTime;
+
 @Getter
 @AllArgsConstructor
 public class WeatherInfo {
@@ -11,5 +13,5 @@ public class WeatherInfo {
     private Double windSpeed;
     private String weatherState;
     private String description;
-//    private LocalDateTime date;
+    private LocalDateTime date;
 }
