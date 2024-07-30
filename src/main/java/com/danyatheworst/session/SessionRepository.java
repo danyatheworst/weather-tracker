@@ -75,7 +75,7 @@ public class SessionRepository {
             session.getTransaction().commit();
         } catch (HibernateException e) {
             throw new InternalServerException(
-                    "Failed to update session expiration time in database"
+                    "Failed to remove session from database"
             );
         }
     }

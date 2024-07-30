@@ -6,20 +6,30 @@
 </head>
 <body>
 <div th:replace="fragments/header"></div>
-<div th:if="${weatherLocationsDto.size() == 0}">
-    <div>You have not added any location to track yet</div>
+<div th:if="${weatherLocationsDto != null}">
+    <div th:if="${weatherLocationsDto.size() == 0}">
+        <div>You have not added any location to track weather yet</div>
+    </div>
+    <ul th:if="${weatherLocationsDto.size() > 0}">
+        <li th:each="weatherLocation : ${weatherLocationsDto}">
+            <div th:text="${weatherLocation.getLocationInfo().getName()}"></div>
+            <div th:text="${weatherLocation.getLocationInfo().getCountry()}"></div>
+            <div th:text="${weatherLocation.getLocationInfo().getState()}"></div>
+            <div th:text="${weatherLocation.getWeatherInfo().getTemperature()}"></div>
+            <div th:text="${weatherLocation.getWeatherInfo().getTemperatureFeelsLike()}"></div>
+            <div th:text="${weatherLocation.getWeatherInfo().getWeatherState()}"></div>
+            <div th:text="${weatherLocation.getWeatherInfo().getDescription()}"></div>
+            <div th:text="${weatherLocation.getWeatherInfo().getWindSpeed()}"></div>
+            <form
+                    th:action="@{/}"
+                    method="post"
+            >
+                <input th:value="${weatherLocation.getLocationInfo().getLat()}" name="lat" type="hidden"/>
+                <input th:value="${weatherLocation.getLocationInfo().getLon()}" name="lon" type="hidden"/>
+                <button type="submit">remove</button>
+            </form>
+        </li>
+    </ul>
 </div>
-<ul th:if="${weatherLocationsDto.size() > 0}">
-    <li th:each="weatherLocation : ${weatherLocationsDto}">
-        <div th:text="${weatherLocation.getLocationInfo().getName()}"></div>
-        <div th:text="${weatherLocation.getLocationInfo().getCountry()}"></div>
-        <div th:text="${weatherLocation.getLocationInfo().getState()}"></div>
-        <div th:text="${weatherLocation.getWeatherInfo().getTemperature()}"></div>
-        <div th:text="${weatherLocation.getWeatherInfo().getTemperatureFeelsLike()}"></div>
-        <div th:text="${weatherLocation.getWeatherInfo().getWeatherState()}"></div>
-        <div th:text="${weatherLocation.getWeatherInfo().getDescription()}"></div>
-        <div th:text="${weatherLocation.getWeatherInfo().getWindSpeed()}"></div>
-    </li>
-</ul>
 </body>
 </html>

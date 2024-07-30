@@ -8,6 +8,7 @@ import org.hibernate.exception.ConstraintViolationException;
 import org.postgresql.util.PSQLException;
 import org.springframework.stereotype.Repository;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 @Repository
@@ -43,13 +44,30 @@ public class LocationRepository {
             if (cause instanceof PSQLException psqlException) {
                 if ("23505".equals(psqlException.getSQLState())) {
                     throw new EntityAlreadyExistsException(
-                            "Location " + location.getName() + ", " + location.getCountry() + " already being tracked"
+                            "Location " + location.getName() + ", " + location.getCountry() + " is already being tracked"
                     );
                 }
             }
 
             throw new InternalServerException(
                     "Failed to save location with name " + location.getName() + " into database"
+            );
+        }
+    }
+
+    public void removeBy(BigDecimal lat, BigDecimal lon, Long userId) {
+        try (var session = this.sessionFactory.openSession()) {
+            //hibernate makes us to use transactions with createMutationQuery;
+            session.beginTransaction();
+            session.createMutationQuery("DELETE FROM Location WHERE lat = :lat AND lon = :lon and user.id =:userId")
+                    .setParameter("lat", lat)
+                    .setParameter("lon", lon)
+                    .setParameter("userId", userId)
+                    .executeUpdate();
+            session.getTransaction().commit();
+        } catch (HibernateException e) {
+            throw new InternalServerException(
+                    "Failed to remove a user's location from the database"
             );
         }
     }

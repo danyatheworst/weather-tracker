@@ -3,10 +3,7 @@ package com.danyatheworst.location;
 import com.danyatheworst.common.ErrorResponseDto;
 import com.danyatheworst.exceptions.EntityAlreadyExistsException;
 import com.danyatheworst.exceptions.OpenWeatherApiException;
-import com.danyatheworst.location.dto.CreateLocationRequestDto;
-import com.danyatheworst.location.dto.LocationInfo;
-import com.danyatheworst.location.dto.WeatherInfo;
-import com.danyatheworst.location.dto.WeatherLocationDto;
+import com.danyatheworst.location.dto.*;
 import com.danyatheworst.openWeather.LocationApiDto;
 import com.danyatheworst.openWeather.OpenWeatherApiService;
 import com.danyatheworst.openWeather.weatherApiResponse.WeatherApiResponse;
@@ -66,7 +63,7 @@ public class LocationController {
         }
     }
 
-    @GetMapping("")
+    @GetMapping("/")
     public String fetchWeatherOfUserLocations(Model model, HttpServletRequest request, HttpServletResponse response) {
         long userId = ((User) request.getAttribute("user")).getId();
         List<Location> locations = this.locationService.findAllBy(userId);
@@ -86,15 +83,25 @@ public class LocationController {
             model.addAttribute("errorResponseDto", new ErrorResponseDto(e.getMessage()));
         }
         return "index";
+    }
 
+    @PostMapping("/")
+    public String removeUserLocation(DeleteLocationRequestDto deleteLocationRequestDto, HttpServletRequest request) {
+            long userId = ((User) request.getAttribute("user")).getId();
+            this.locationService.remove(deleteLocationRequestDto, userId);
+
+            return "redirect:/";
     }
 
     private static LocationInfo getLocationIfo(Location location) {
-        Long id = location.getId();
-        String name = location.getName();
-        String country = location.getCountry();
-        String state = location.getState();
-        return new LocationInfo(id, name, country, state);
+        return new LocationInfo(
+                location.getId(),
+                location.getName(),
+                location.getCountry(),
+                location.getState(),
+                location.getLat(),
+                location.getLon()
+        );
     }
 
     private static WeatherInfo getWeatherInfo(WeatherApiResponse weather) {

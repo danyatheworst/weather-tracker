@@ -2,16 +2,16 @@ package com.danyatheworst.location.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.math.BigDecimal;
 
 @Getter
+@Setter
 @AllArgsConstructor
-public class LocationInfo {
-    private Long id;
-    private String name;
-    private String country;
-    private String state;
+@NoArgsConstructor
+public class DeleteLocationRequestDto {
     private BigDecimal lat;
     private BigDecimal lon;
 }

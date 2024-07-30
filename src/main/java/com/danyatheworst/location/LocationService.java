@@ -1,6 +1,7 @@
 package com.danyatheworst.location;
 
 import com.danyatheworst.location.dto.CreateLocationRequestDto;
+import com.danyatheworst.location.dto.DeleteLocationRequestDto;
 import com.danyatheworst.user.User;
 import org.springframework.stereotype.Service;
 
@@ -30,5 +31,9 @@ public class LocationService {
                 createLocationRequestDto.getState()
         );
         return this.locationRepository.save(location);
+    }
+
+    public void remove(DeleteLocationRequestDto deleteLocationRequestDto, Long userId) {
+        this.locationRepository.removeBy(deleteLocationRequestDto.getLat(), deleteLocationRequestDto.getLon(), userId);
     }
 }
