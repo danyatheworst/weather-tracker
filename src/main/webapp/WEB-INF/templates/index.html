@@ -11,22 +11,26 @@
         <div>You have not added any location to track weather yet</div>
     </div>
     <ul th:if="${weatherLocationsDto.size() > 0}">
-        <li th:each="weatherLocation : ${weatherLocationsDto}">
-            <div th:text="${weatherLocation.getLocationInfo().getName()}"></div>
-            <div th:text="${weatherLocation.getLocationInfo().getCountry()}"></div>
-            <div th:text="${weatherLocation.getLocationInfo().getState()}"></div>
-            <div th:text="${weatherLocation.getWeatherInfo().getTemperature()}"></div>
-            <div th:text="${weatherLocation.getWeatherInfo().getTemperatureFeelsLike()}"></div>
-            <div th:text="${weatherLocation.getWeatherInfo().getWeatherState()}"></div>
-            <div th:text="${weatherLocation.getWeatherInfo().getDescription()}"></div>
-            <div th:text="${weatherLocation.getWeatherInfo().getWindSpeed()}"></div>
-            <div th:text="${weatherLocation.getWeatherInfo().getDate()}"></div>
+        <li
+                th:each="weatherLocation : ${weatherLocationsDto}"
+                th:with="location=${weatherLocation.getLocationInfo()},
+                         weather=${weatherLocation.getWeatherInfo()}"
+        >
+            <div th:text="${location.getName()}"></div>
+            <div th:text="${location.getCountry()}"></div>
+            <div th:text="${location.getState()}"></div>
+            <div th:text="${weather.getTemperature()}"></div>
+            <div th:text="${weather.getTemperatureFeelsLike()}"></div>
+            <div th:text="${weather.getWeatherState()}"></div>
+            <div th:text="${weather.getDescription()}"></div>
+            <div th:text="${weather.getWindSpeed()}"></div>
+            <div th:text="${weather.getDate()}"></div>
             <form
                     th:action="@{/}"
                     method="post"
             >
-                <input th:value="${weatherLocation.getLocationInfo().getLat()}" name="lat" type="hidden"/>
-                <input th:value="${weatherLocation.getLocationInfo().getLon()}" name="lon" type="hidden"/>
+                <input th:value="${location.getLat()}" name="lat" type="hidden"/>
+                <input th:value="${location.getLon()}" name="lon" type="hidden"/>
                 <button type="submit">remove</button>
             </form>
         </li>
