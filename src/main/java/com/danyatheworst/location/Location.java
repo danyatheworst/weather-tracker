@@ -16,7 +16,7 @@ import java.math.BigDecimal;
 @Entity
 @Table(
         name = "locations",
-        uniqueConstraints = @UniqueConstraint(columnNames = {"name", "user_Id"})
+        uniqueConstraints = @UniqueConstraint(columnNames = {"lat", "lon", "user_Id"})
 )
 public class Location {
     @Id
