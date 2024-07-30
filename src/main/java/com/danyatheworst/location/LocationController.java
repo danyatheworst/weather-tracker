@@ -2,7 +2,6 @@ package com.danyatheworst.location;
 
 import com.danyatheworst.common.ErrorResponseDto;
 import com.danyatheworst.exceptions.EntityAlreadyExistsException;
-import com.danyatheworst.exceptions.InternalServerException;
 import com.danyatheworst.exceptions.OpenWeatherApiException;
 import com.danyatheworst.location.dto.*;
 import com.danyatheworst.openWeather.LocationApiDto;

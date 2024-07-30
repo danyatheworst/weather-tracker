@@ -26,7 +26,7 @@ public class SpringConfig implements WebMvcConfigurer {
     private final ApplicationContext applicationContext;
     private final CookieInterceptor cookieInterceptor;
 
-    public SpringConfig(ApplicationContext applicationContext, Environment env, CookieInterceptor cookieInterceptor) {
+    public SpringConfig(ApplicationContext applicationContext, CookieInterceptor cookieInterceptor) {
         this.applicationContext = applicationContext;
         this.cookieInterceptor = cookieInterceptor;
     }

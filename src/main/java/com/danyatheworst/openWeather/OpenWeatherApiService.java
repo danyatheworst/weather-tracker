@@ -7,7 +7,6 @@ import com.danyatheworst.openWeather.weatherApiResponse.ApiException;
 import com.danyatheworst.openWeather.weatherApiResponse.WeatherApiResponse;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.json.JsonMapper;
-import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
