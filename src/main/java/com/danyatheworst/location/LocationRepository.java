@@ -4,7 +4,6 @@ import com.danyatheworst.exceptions.EntityAlreadyExistsException;
 import com.danyatheworst.exceptions.InternalServerException;
 import org.hibernate.HibernateException;
 import org.hibernate.SessionFactory;
-import org.hibernate.exception.ConstraintViolationException;
 import org.postgresql.util.PSQLException;
 import org.springframework.stereotype.Repository;
 
@@ -24,7 +23,8 @@ public class LocationRepository {
         try (var session = this.sessionFactory.openSession()) {
             return session.createQuery(
                             "FROM Location l WHERE l.user.id = :userId ORDER BY l.id DESC",
-                            Location.class)
+                            Location.class
+                    )
                     .setParameter("userId", userId)
                     .getResultList();
         } catch (HibernateException e) {

@@ -61,7 +61,9 @@ public class OpenWeatherApiService {
     }
 
     public static URI buildUriForWeatherRequest(BigDecimal lat, BigDecimal lon) {
-        return URI.create(BASE_API_URL + WEATHER_API_URL_SUFFIX + "lat=" + lat + "&lon=" + lon + "&appid=" + APP_ID);
+        return URI.create(
+                BASE_API_URL + WEATHER_API_URL_SUFFIX + "lat=" + lat + "&lon=" + lon + "&units=metric" + "&appid=" + APP_ID
+        );
     }
 
     private String getResponseBody(URI uri) throws IOException, InterruptedException {

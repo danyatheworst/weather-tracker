@@ -8,6 +8,7 @@ import com.danyatheworst.openWeather.LocationApiDto;
 import com.danyatheworst.openWeather.OpenWeatherApiService;
 import com.danyatheworst.openWeather.weatherApiResponse.WeatherApiResponse;
 import com.danyatheworst.user.User;
+import com.danyatheworst.util.DateUtil;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.stereotype.Controller;
@@ -75,8 +76,8 @@ public class LocationController {
             for (Location location : locations) {
                 WeatherApiResponse weather = this.openWeatherApiService.getWeatherBy(location.getLat(), location.getLon());
                 LocationInfo locationInfo = getLocationIfo(location);
-                WeatherInfo weatherInfo = getWeatherInfo(weather);
-                WeatherLocationDto weatherLocationDto = new WeatherLocationDto(locationInfo, weatherInfo);
+                WeatherInfoDto weatherInfoDto = convert(weather);
+                WeatherLocationDto weatherLocationDto = new WeatherLocationDto(locationInfo, weatherInfoDto);
                 weatherLocationsDto.add(weatherLocationDto);
             }
             model.addAttribute("weatherLocationsDto", weatherLocationsDto);
@@ -106,13 +107,13 @@ public class LocationController {
         );
     }
 
-    private static WeatherInfo getWeatherInfo(WeatherApiResponse weather) {
-        Double temperature = weather.getMain().getTemperature();
-        Double temperatureFeelsLike = weather.getMain().getTemperatureFeelsLike();
-        Double windSpeed = weather.getWind().getSpeed();
-        String weatherState = weather.getWeather().get(0).getCurrentState();
+    private static WeatherInfoDto convert(WeatherApiResponse weather) {
+        String temperature = weather.getMain().getTemperature().intValue() + " °C";
+        String temperatureFeelsLike = weather.getMain().getTemperatureFeelsLike().intValue() + " °C";
+        String windSpeed = weather.getWind().getSpeed() + " m/s";
         String description = weather.getWeather().get(0).getDescription();
-        LocalDateTime dateTime = weather.getDate();
-        return new WeatherInfo(temperature, temperatureFeelsLike, windSpeed, weatherState, description, dateTime);
+        String date = DateUtil.formatDate(weather.getDate());
+        String time = DateUtil.formatTime(weather.getDate());
+        return new WeatherInfoDto(temperature, temperatureFeelsLike, windSpeed, description, date, time);
     }
 }

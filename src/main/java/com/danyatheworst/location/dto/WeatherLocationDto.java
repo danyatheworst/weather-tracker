@@ -10,5 +10,5 @@ import lombok.Setter;
 @AllArgsConstructor
 public class WeatherLocationDto {
     private LocationInfo locationInfo;
-    private WeatherInfo weatherInfo;
+    private WeatherInfoDto weatherInfoDto;
 }

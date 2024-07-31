@@ -14,17 +14,17 @@
         <li
                 th:each="weatherLocation : ${weatherLocationsDto}"
                 th:with="location=${weatherLocation.getLocationInfo()},
-                         weather=${weatherLocation.getWeatherInfo()}"
+                         weather=${weatherLocation.getWeatherInfoDto()}"
         >
             <div th:text="${location.getName()}"></div>
             <div th:text="${location.getCountry()}"></div>
             <div th:text="${location.getState()}"></div>
             <div th:text="${weather.getTemperature()}"></div>
             <div th:text="${weather.getTemperatureFeelsLike()}"></div>
-            <div th:text="${weather.getWeatherState()}"></div>
-            <div th:text="${weather.getDescription()}"></div>
+            <div th:text="${weather.getDescription}"></div>
             <div th:text="${weather.getWindSpeed()}"></div>
             <div th:text="${weather.getDate()}"></div>
+            <div th:text="${weather.getTime()}"></div>
             <form
                     th:action="@{/}"
                     method="post"
