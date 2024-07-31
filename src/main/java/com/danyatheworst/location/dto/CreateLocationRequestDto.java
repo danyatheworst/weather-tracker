@@ -6,7 +6,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.math.BigDecimal;
 
 @Getter
 @Setter
@@ -17,10 +16,10 @@ public class CreateLocationRequestDto {
     private String name;
 
     @NotNull
-    private BigDecimal lat;
+    private double lat;
 
     @NotNull
-    private BigDecimal lon;
+    private double lon;
 
     @NotNull
     private String country;

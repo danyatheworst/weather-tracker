@@ -5,7 +5,6 @@ import com.danyatheworst.openWeather.weatherApiResponse.WeatherApiResponse;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
-import java.math.BigDecimal;
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
@@ -251,17 +250,13 @@ public class OpenWeatherApiTests {
                     "cod": 200
                 }
                 """;
-        URI uri = OpenWeatherApiService.buildUriForWeatherRequest(
-                new BigDecimal("41.8933203"), new BigDecimal("12.4829321")
-        );
+        URI uri = OpenWeatherApiService.buildUriForWeatherRequest(41.8933203, 12.4829321);
         int statusCode = 200;
         HttpClient httpClient = this.createHttpClient(uri, bodyResponse, statusCode);
         OpenWeatherApiService openWeatherApiService = new OpenWeatherApiService(httpClient);
 
         //when
-        WeatherApiResponse weather = openWeatherApiService.getWeatherBy(
-                new BigDecimal("41.8933203"), new BigDecimal("12.4829321")
-        );
+        WeatherApiResponse weather = openWeatherApiService.getWeatherBy(41.8933203,12.4829321);
 
         //then
         assertNotNull(weather);

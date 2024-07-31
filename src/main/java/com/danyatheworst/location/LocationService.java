@@ -17,11 +17,11 @@ public class LocationService {
         this.locationRepository = locationRepository;
     }
 
-    public List<Location> findAllBy(Long userId) {
+    public List<Location> findAllBy(long userId) {
         return this.locationRepository.findAllBy(userId);
     }
 
-    public Long save(CreateLocationRequestDto createLocationRequestDto, User user) {
+    public long save(CreateLocationRequestDto createLocationRequestDto, User user) {
         Location location = new Location(
                 createLocationRequestDto.getName(),
                 createLocationRequestDto.getLat(),
@@ -33,7 +33,7 @@ public class LocationService {
         return this.locationRepository.save(location);
     }
 
-    public void remove(DeleteLocationRequestDto deleteLocationRequestDto, Long userId) {
+    public void remove(DeleteLocationRequestDto deleteLocationRequestDto, long userId) {
         this.locationRepository.removeBy(deleteLocationRequestDto.getLat(), deleteLocationRequestDto.getLon(), userId);
     }
 }

@@ -7,8 +7,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.math.BigDecimal;
-
 @Getter
 @Setter
 @AllArgsConstructor
@@ -26,11 +24,11 @@ public class Location {
     @Column(nullable = false)
     private String name;
 
-    @Column(nullable = false, precision = 9, scale = 7)
-    private BigDecimal lat;
+    @Column(nullable = false)
+    private double lat;
 
-    @Column(nullable = false, precision = 9, scale = 7)
-    private BigDecimal lon;
+    @Column(nullable = false)
+    private double lon;
 
     @Column(nullable = false)
     private String country;
@@ -42,7 +40,7 @@ public class Location {
     @JoinColumn(name = "user_Id", nullable = false)
     private User user;
 
-    public Location(String name, BigDecimal lat, BigDecimal lon, User user, String country, String state) {
+    public Location(String name, double lat, double lon, User user, String country, String state) {
         this.name = name;
         this.lat = lat;
         this.lon = lon;

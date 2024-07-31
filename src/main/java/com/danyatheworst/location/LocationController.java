@@ -108,8 +108,8 @@ public class LocationController {
     }
 
     private static WeatherInfoDto convert(WeatherApiResponse weather) {
-        String temperature = weather.getMain().getTemperature().intValue() + " °C";
-        String temperatureFeelsLike = weather.getMain().getTemperatureFeelsLike().intValue() + " °C";
+        String temperature = ((Double) weather.getMain().getTemperature()).intValue() + " °C";
+        String temperatureFeelsLike = ((Double) weather.getMain().getTemperatureFeelsLike()).intValue() + " °C";
         String windSpeed = weather.getWind().getSpeed() + " m/s";
         String description = weather.getWeather().get(0).getDescription();
         String date = DateUtil.formatDate(weather.getDate());
