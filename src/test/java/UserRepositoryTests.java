@@ -1,4 +1,3 @@
-import com.danyatheworst.config.HibernateConfig;
 import com.danyatheworst.config.TestConfig;
 import com.danyatheworst.user.User;
 import com.danyatheworst.user.UserRepository;

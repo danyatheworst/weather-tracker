@@ -13,7 +13,11 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "users")
+@Table(
+        name = "users",
+        indexes = {
+                @Index(name = "idx_login", columnList = "login")
+        })
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
