@@ -22,7 +22,7 @@ public class User {
     @Column(unique = true, nullable = false)
     private String login;
 
-    @Column(unique = true, nullable = false)
+    @Column(nullable = false)
     private String password;
 
     public User(String login, String password) {

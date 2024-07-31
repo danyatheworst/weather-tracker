@@ -1,31 +1,19 @@
-package it;
-
 import com.danyatheworst.AuthenticationService;
-import com.danyatheworst.config.HibernateConfig;
+import com.danyatheworst.config.TestConfig;
 import com.danyatheworst.exceptions.NotFoundException;
 import com.danyatheworst.session.Session;
-import com.danyatheworst.session.SessionRepository;
 import com.danyatheworst.session.SessionService;
 import com.danyatheworst.user.*;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.test.annotation.DirtiesContext;
-import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
+import org.springframework.test.context.junit.jupiter.web.SpringJUnitWebConfig;
 
 import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-@SpringJUnitConfig(classes =
-        {HibernateConfig.class,
-                AuthenticationService.class,
-                BCryptPasswordEncoder.class,
-                UserService.class,
-                UserRepository.class,
-                SessionService.class,
-                SessionRepository.class}
-)
+@SpringJUnitWebConfig(TestConfig.class)
 @DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)
 public class SignInIntegrationTests {
 

@@ -1,6 +1,4 @@
-package it;
-
-import com.danyatheworst.config.HibernateConfig;
+import com.danyatheworst.config.TestConfig;
 import com.danyatheworst.exceptions.EntityAlreadyExistsException;
 import com.danyatheworst.user.SignUpRequestDto;
 import com.danyatheworst.user.User;
@@ -8,19 +6,14 @@ import com.danyatheworst.user.UserRepository;
 import com.danyatheworst.user.UserService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.test.annotation.DirtiesContext;
-import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
+import org.springframework.test.context.junit.jupiter.web.SpringJUnitWebConfig;
 
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-@SpringJUnitConfig(classes =
-        {HibernateConfig.class,
-        UserService.class,
-        UserRepository.class,
-        BCryptPasswordEncoder.class})
+@SpringJUnitWebConfig(TestConfig.class)
 @DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)
 public class SignUpIntegrationTests {
 

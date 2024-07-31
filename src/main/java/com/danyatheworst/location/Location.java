@@ -26,10 +26,10 @@ public class Location {
     @Column(nullable = false)
     private String name;
 
-    @Column(nullable = false)
+    @Column(nullable = false, precision = 9, scale = 7)
     private BigDecimal lat;
 
-    @Column(nullable = false)
+    @Column(nullable = false, precision = 9, scale = 7)
     private BigDecimal lon;
 
     @Column(nullable = false)
