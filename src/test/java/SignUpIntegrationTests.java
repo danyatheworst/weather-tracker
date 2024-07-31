@@ -43,8 +43,6 @@ public class SignUpIntegrationTests {
         this.userService.create(signUpRequestDto);
 
         //when and then
-        assertThrows(EntityAlreadyExistsException.class, () -> {
-            this.userService.create(signUpRequestDto);
-        });
+        assertThrows(EntityAlreadyExistsException.class, () -> this.userService.create(signUpRequestDto));;
     }
 }
