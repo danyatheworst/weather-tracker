@@ -8,7 +8,6 @@ import com.danyatheworst.openWeather.LocationApiDto;
 import com.danyatheworst.openWeather.OpenWeatherApiService;
 import com.danyatheworst.openWeather.weatherApiResponse.WeatherApiResponse;
 import com.danyatheworst.user.User;
-import com.danyatheworst.util.DateUtil;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.stereotype.Controller;
@@ -89,10 +88,10 @@ public class LocationController {
 
     @PostMapping("/")
     public String removeUserLocation(DeleteLocationRequestDto deleteLocationRequestDto, HttpServletRequest request) {
-            long userId = ((User) request.getAttribute("user")).getId();
-            this.locationService.remove(deleteLocationRequestDto, userId);
+        long userId = ((User) request.getAttribute("user")).getId();
+        this.locationService.remove(deleteLocationRequestDto, userId);
 
-            return "redirect:/";
+        return "redirect:/";
     }
 
     private static LocationInfo getLocationIfo(Location location) {
@@ -111,8 +110,6 @@ public class LocationController {
         String temperatureFeelsLike = ((Double) weather.getMain().getTemperatureFeelsLike()).intValue() + " °C";
         String windSpeed = weather.getWind().getSpeed() + " m/s";
         String description = weather.getWeather().get(0).getDescription();
-        String date = DateUtil.formatDate(weather.getDate());
-        String time = DateUtil.formatTime(weather.getDate());
-        return new WeatherInfoDto(temperature, temperatureFeelsLike, windSpeed, description, date, time);
+        return new WeatherInfoDto(temperature, temperatureFeelsLike, windSpeed, description);
     }
 }

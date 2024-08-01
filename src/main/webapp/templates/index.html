@@ -19,8 +19,6 @@
                                     th:text="${weather.getTemperatureFeelsLike()}"></span></p>
                             <p class="card-text">Description: <span th:text="${weather.getDescription}"></span></p>
                             <p class="card-text">Wind Speed: <span th:text="${weather.getWindSpeed()}"></span></p>
-                            <p class="card-text">Date: <span th:text="${weather.getDate()}"></span></p>
-                            <p class="card-text">Time: <span th:text="${weather.getTime()}"></span></p>
                         </div>
                         <div class="card-footer">
                             <form th:action="@{/}" method="post">

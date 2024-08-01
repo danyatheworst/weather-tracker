@@ -10,6 +10,4 @@ public class WeatherInfoDto {
     private String temperatureFeelsLike;
     private String windSpeed;
     private String description;
-    private String date;
-    private String time;
 }
