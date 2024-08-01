@@ -18,16 +18,16 @@
                         <h1 class="fs-4 card-title fw-bold mb-4 text-center">Sign up</h1>
 
                         <form th:action="@{/sign-up}" th:object="${signUpRequestDto}" method="post">
-                            <div class="mb-3 d-flex align-items-center">
-                                <label class="mb-2 text-muted me-3" for="login">Login:</label>
+                            <div class="mb-3">
+                                <label class="mb-2 text-muted" for="login">Login:</label>
                                 <input type="text" id="login" th:field="*{login}" class="form-control" required autofocus>
                                 <div th:if="${#fields.hasErrors('login')}" class="text-danger small mt-1">
                                     <div th:errors="*{login}"></div>
                                 </div>
                             </div>
 
-                            <div class="mb-3 d-flex align-items-center">
-                                <label class="mb-2 text-muted me-3" for="password">Password:</label>
+                            <div class="mb-3">
+                                <label class="mb-2 text-muted" for="password">Password:</label>
                                 <input id="password" th:field="*{password}" type="password" class="form-control"
                                        name="password" required>
                                 <div th:if="${#fields.hasErrors('password')}" class="text-danger small mt-1">
@@ -35,8 +35,8 @@
                                 </div>
                             </div>
 
-                            <div class="mb-3 d-flex align-items-center">
-                                <label class="mb-2 text-muted me-3" for="confirmPassword">Confirm Password:</label>
+                            <div class="mb-3">
+                                <label class="mb-2" for="confirmPassword">Confirm Password:</label>
                                 <input th:field="*{confirmPassword}" id="confirmPassword" type="password" class="form-control"
                                        name="confirmPassword" required>
                                 <div th:if="${#fields.hasErrors('confirmPassword')}" class="text-danger small mt-1">
