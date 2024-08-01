@@ -49,6 +49,16 @@ public class SignInIntegrationTests {
     }
 
     @Test
+    void itShouldThrowExceptionAfterSignInIfPasswordIsWrong() {
+        //given
+        this.userService.create(new SignUpRequestDto("user", "000000", "000000"));
+        SignInRequestDto signInRequestDto = new SignInRequestDto("user", "000001");
+
+        //when and then
+        assertThrows(NotFoundException.class, () -> this.authenticationService.authenticate(signInRequestDto));
+    }
+
+    @Test
     void itShouldThrowExceptionIfSessionIsExpired() {
         //given
         this.userService.create(new SignUpRequestDto("user", "000000", "000000"));
