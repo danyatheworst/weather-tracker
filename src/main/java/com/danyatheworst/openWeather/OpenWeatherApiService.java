@@ -10,7 +10,6 @@ import com.fasterxml.jackson.databind.json.JsonMapper;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
-import java.math.BigDecimal;
 import java.net.URI;
 import java.net.URLEncoder;
 import java.net.http.HttpClient;
@@ -44,7 +43,7 @@ public class OpenWeatherApiService {
         }
     }
 
-    public WeatherApiResponse getWeatherBy(BigDecimal lat, BigDecimal lon) {
+    public WeatherApiResponse getWeatherBy(double lat, double lon) {
         try {
             URI uri = OpenWeatherApiService.buildUriForWeatherRequest(lat, lon);
             return this.jsonMapper.readValue(this.getResponseBody(uri), new TypeReference<>() {
@@ -60,7 +59,7 @@ public class OpenWeatherApiService {
         return URI.create(url);
     }
 
-    public static URI buildUriForWeatherRequest(BigDecimal lat, BigDecimal lon) {
+    public static URI buildUriForWeatherRequest(double lat, double       lon) {
         return URI.create(
                 BASE_API_URL + WEATHER_API_URL_SUFFIX + "lat=" + lat + "&lon=" + lon + "&units=metric" + "&appid=" + APP_ID
         );

@@ -11,7 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.junit.jupiter.web.SpringJUnitWebConfig;
 
-import java.math.BigDecimal;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -32,8 +31,8 @@ public class LocationIntegrationTests {
         this.userRepository.save(new User("user", "000000"));
         CreateLocationRequestDto createLocationRequestDto = new CreateLocationRequestDto(
                 "Rome",
-                new BigDecimal("41.8933203"),
-                new BigDecimal("12.4829321"),
+                41.8933203,
+                12.4829321,
                 "IT",
                 "Lazio"
         );
@@ -50,8 +49,8 @@ public class LocationIntegrationTests {
         this.userRepository.save(new User("first_user", "000000"));
         this.userRepository.save(new User("second_user", "000000"));
 
-        BigDecimal lat = new BigDecimal("41.8933203");
-        BigDecimal lon = new BigDecimal("12.4829321");
+        double lat = 41.8933203;
+        double lon = 12.4829321;
         CreateLocationRequestDto createLocationRequestDto = new CreateLocationRequestDto(
                 "Rome",
                 lat,

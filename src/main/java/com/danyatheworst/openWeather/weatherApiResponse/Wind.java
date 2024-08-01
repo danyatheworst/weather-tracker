@@ -8,5 +8,5 @@ import lombok.Getter;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Wind {
     @JsonProperty("speed")
-    private Double speed;
+    private double speed;
 }

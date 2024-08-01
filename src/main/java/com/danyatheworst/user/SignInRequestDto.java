@@ -15,10 +15,10 @@ import lombok.Setter;
 public class SignInRequestDto {
 
     @NotBlank
-    @Size(min = 3, max = 50, message = "The username and/or password you specified are not correct")
+    @Size(min = 3, max = 50)
     private String login;
 
     @NotBlank
-    @Size(min = 6, max = 50, message = "The username and/or password you specified are not correct")
+    @Size(min = 6, max = 50)
     private String password;
 }

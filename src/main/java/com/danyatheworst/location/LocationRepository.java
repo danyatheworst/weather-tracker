@@ -6,8 +6,6 @@ import org.hibernate.HibernateException;
 import org.hibernate.SessionFactory;
 import org.postgresql.util.PSQLException;
 import org.springframework.stereotype.Repository;
-
-import java.math.BigDecimal;
 import java.util.List;
 
 @Repository
@@ -55,7 +53,7 @@ public class LocationRepository {
         }
     }
 
-    public void removeBy(BigDecimal lat, BigDecimal lon, Long userId) {
+    public void removeBy(double lat, double lon, Long userId) {
         try (var session = this.sessionFactory.openSession()) {
             //hibernate makes us to use transactions with createMutationQuery;
             session.beginTransaction();
