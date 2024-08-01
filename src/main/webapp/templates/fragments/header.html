@@ -1,4 +1,9 @@
-<p th:text="${user.login}"></p>
-<div>
-    <a th:href="@{/sign-out}">log out</a>
-</div>
+<header class="bg-primary text-white p-3 rounded-bottom shadow">
+    <div class="container d-flex justify-content-between align-items-center">
+        <h1 class="h3 mb-0">Weather Tracker 4000</h1>
+        <div th:if="${user != null}">
+            <span th:text="${user.login}" class="me-3"></span>
+            <a th:href="@{/sign-out}" class="btn btn-light btn-sm">Log out</a>
+        </div>
+    </div>
+</header>

@@ -2,39 +2,47 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <title>Home</title>
 </head>
 <body>
 <div th:replace="fragments/header"></div>
-<div th:if="${weatherLocationsDto != null}">
-    <div th:if="${weatherLocationsDto.size() == 0}">
-        <div>You have not added any location to track weather yet</div>
+<div class="container mt-5">
+    <div th:replace="fragments/search-form"></div>
+    <div th:if="${weatherLocationsDto != null}">
+        <div th:if="${weatherLocationsDto.size() == 0}" class="alert alert-info">
+            You have not added any location to track weather yet.
+        </div>
+        <div class="row row-cols-1 row-cols-md-2 row-cols-lg-4 g-4" th:if="${weatherLocationsDto.size() > 0}">
+            <div class="col" th:each="weatherLocation : ${weatherLocationsDto}"
+                 th:with="location=${weatherLocation.getLocationInfo()}, weather=${weatherLocation.getWeatherInfoDto()}">
+                <div class="card h-100 shadow-sm">
+                    <div class="card-body">
+                        <h5 class="card-title" th:text="${location.getName()}"></h5>
+                        <p class="card-text" th:text="${location.getCountry()}"></p>
+                        <p class="card-text" th:if="${location.getState() != ''}" th:text="${location.getState()}"></p>
+                        <p class="card-text">Temperature: <span th:text="${weather.getTemperature()}"></span></p>
+                        <p class="card-text">Feels Like: <span th:text="${weather.getTemperatureFeelsLike()}"></span></p>
+                        <p class="card-text">Description: <span th:text="${weather.getDescription}"></span></p>
+                        <p class="card-text">Wind Speed: <span th:text="${weather.getWindSpeed()}"></span></p>
+                        <p class="card-text">Date: <span th:text="${weather.getDate()}"></span></p>
+                        <p class="card-text">Time: <span th:text="${weather.getTime()}"></span></p>
+                    </div>
+                    <div class="card-footer">
+                        <form th:action="@{/}" method="post">
+                            <input th:value="${location.getLat()}" name="lat" type="hidden"/>
+                            <input th:value="${location.getLon()}" name="lon" type="hidden"/>
+                            <button type="submit" class="btn btn-danger">Remove</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-    <ul th:if="${weatherLocationsDto.size() > 0}">
-        <li
-                th:each="weatherLocation : ${weatherLocationsDto}"
-                th:with="location=${weatherLocation.getLocationInfo()},
-                         weather=${weatherLocation.getWeatherInfoDto()}"
-        >
-            <div th:text="${location.getName()}"></div>
-            <div th:text="${location.getCountry()}"></div>
-            <div th:text="${location.getState()}"></div>
-            <div th:text="${weather.getTemperature()}"></div>
-            <div th:text="${weather.getTemperatureFeelsLike()}"></div>
-            <div th:text="${weather.getDescription}"></div>
-            <div th:text="${weather.getWindSpeed()}"></div>
-            <div th:text="${weather.getDate()}"></div>
-            <div th:text="${weather.getTime()}"></div>
-            <form
-                    th:action="@{/}"
-                    method="post"
-            >
-                <input th:value="${location.getLat()}" name="lat" type="hidden"/>
-                <input th:value="${location.getLon()}" name="lon" type="hidden"/>
-                <button type="submit">remove</button>
-            </form>
-        </li>
-    </ul>
 </div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous">
+</script>
 </body>
 </html>
