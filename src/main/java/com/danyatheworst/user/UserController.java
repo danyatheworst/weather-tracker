@@ -33,9 +33,9 @@ public class UserController {
     }
 
     @GetMapping("/sign-in")
-    public String signIp(Model model) {
-        model.addAttribute("signInRequestDto", new SignUpRequestDto());
-
+    public String signIp(Model model, HttpServletRequest request) {
+        SignInRequestDto signInRequestDto = new SignInRequestDto(request.getParameter("redirect_to"));
+        model.addAttribute("signInRequestDto", signInRequestDto);
         return "sign-in";
     }
 
@@ -57,6 +57,10 @@ public class UserController {
         } catch (NotFoundException e) {
             model.addAttribute("error", new ErrorResponseDto(e.getMessage()));
             return "sign-in";
+        }
+        String redirectTo = signInRequestDto.getRedirectTo();
+        if (redirectTo != null && !redirectTo.isEmpty()) {
+            return "redirect:" + redirectTo;
         }
 
         return "redirect:/";
@@ -105,7 +109,7 @@ public class UserController {
             Cookie cookie = new Cookie("sessionId", null);
             cookie.setMaxAge(0);
             response.addCookie(cookie);
-            return "redirect:/sign-in";
+            return "redirect:/";
         } catch (InternalServerException e) {
             model.addAttribute("error", new ErrorResponseDto(e.getMessage()));
             return "redirect:" + request.getHeader("Referer");

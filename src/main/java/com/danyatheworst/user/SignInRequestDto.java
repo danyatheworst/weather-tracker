@@ -21,4 +21,15 @@ public class SignInRequestDto {
     @NotBlank
     @Size(min = 6, max = 50)
     private String password;
+
+    private String redirectTo;
+
+    public SignInRequestDto(String login, String password) {
+        this.login = login;
+        this.password = password;
+    }
+
+    public SignInRequestDto(String redirectTo) {
+        this.redirectTo = redirectTo;
+    }
 }

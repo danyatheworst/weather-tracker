@@ -15,11 +15,12 @@ import java.io.IOException;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.Objects;
+import java.util.Set;
 import java.util.UUID;
 
 @Component
 public class CookieInterceptor implements HandlerInterceptor {
-
+    private static final Set<String> publicURIs = Set.of("/", "/sign-in", "/sign-up");
     private final SessionService sessionService;
 
     public CookieInterceptor(SessionService sessionService) {
@@ -36,7 +37,7 @@ public class CookieInterceptor implements HandlerInterceptor {
             for (Cookie cookie : cookies) {
                 if ("sessionId".equals(cookie.getName())) {
                     try {
-                        UUID sessionId = this.fromString(cookie.getValue());
+                        UUID sessionId = fromString(cookie.getValue());
                         Session session = this.sessionService.findBy(sessionId);
                         this.sessionService.checkExpiration(session);
                         this.sessionService.updateExpirationTime(sessionId);
@@ -44,28 +45,25 @@ public class CookieInterceptor implements HandlerInterceptor {
                         newCookie.setMaxAge(this.getCookieMaxAge(session.getExpiresAt()));
                         response.addCookie(newCookie);
                         request.setAttribute("user", session.getUser());
-                        if (this.isSigningPage(uri)) {
+                        if (isSigningURI(uri)) {
                             response.sendRedirect("/");
-                            return false;
                         }
                         return true;
                     } catch (InvalidParameterException | NotFoundException e) {
-                        if (this.isSigningPage(uri)) {
+                        if (isSigningURI(uri)) {
                             return true;
                         }
-
-                        // Redirect if sessionId was faked and a user is not on a sign-in/sign-up page
-                        response.sendRedirect("/sign-in");
-                        return false;
+                        if (isPrivateURI(uri)) {
+                            response.sendRedirect(getSignInRedirectURI(request));
+                        }
                     }
                 }
             }
         }
-        if (this.isSigningPage(uri)) {
-            return true;
+        if (isPrivateURI(uri)) {
+            response.sendRedirect(getSignInRedirectURI(request));
         }
-        response.sendRedirect("/sign-in"); // Redirect if sessionId is not present in db
-        return false;
+        return true;
     }
 
     private int getCookieMaxAge(LocalDateTime expirationTime) {
@@ -73,7 +71,7 @@ public class CookieInterceptor implements HandlerInterceptor {
         return Math.abs((int) diff.getSeconds());
     }
 
-    private UUID fromString(String string) {
+    private static UUID fromString(String string) {
         try {
             return UUID.fromString(string);
         } catch (IllegalArgumentException e) {
@@ -81,7 +79,20 @@ public class CookieInterceptor implements HandlerInterceptor {
         }
     }
 
-    private boolean isSigningPage(String uri) {
+    private static boolean isSigningURI(String uri) {
         return Objects.equals(uri, "/sign-in") || Objects.equals(uri, "/sign-up");
+    }
+
+    private static boolean isPrivateURI(String url) {
+        return !publicURIs.contains(url);
+    }
+
+    private static String getSignInRedirectURI(HttpServletRequest request) {
+        String uri = request.getRequestURI();
+        String q = request.getQueryString();
+        if (q == null) {
+            return "sign-in?redirect_to=" + uri;
+        }
+        return "sign-in?redirect_to=" + uri + "?" + q;
     }
 }

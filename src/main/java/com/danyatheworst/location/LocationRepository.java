@@ -42,7 +42,8 @@ public class LocationRepository {
             if (cause instanceof PSQLException psqlException) {
                 if ("23505".equals(psqlException.getSQLState())) {
                     throw new EntityAlreadyExistsException(
-                            "Location " + location.getName() + ", " + location.getCountry() + " is already being tracked"
+                            "Location " + location.getName() + ", " + location.getCountry() +
+                                    " is already on your list of tracked locations."
                     );
                 }
             }

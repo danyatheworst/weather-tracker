@@ -66,6 +66,9 @@ public class LocationController {
 
     @GetMapping("/")
     public String fetchWeatherOfUserLocations(Model model, HttpServletRequest request, HttpServletResponse response) {
+        if (request.getAttribute("user") == null) {
+            return "index";
+        }
         long userId = ((User) request.getAttribute("user")).getId();
         List<Location> locations = this.locationService.findAllBy(userId);
         List<WeatherLocationDto> weatherLocationsDto = new ArrayList<>();
