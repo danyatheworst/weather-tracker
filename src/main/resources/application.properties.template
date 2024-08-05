@@ -5,6 +5,7 @@ hibernate.connection.password = [password]
 
 hibernate.show_sql = true
 hibernate.hbm2ddl.auto = update
+hibernate.dialect = org.hibernate.dialect.PostgreSQLDialect
 hibernate.current_session_context_class = thread
 
 session_expiration_seconds = 259200
