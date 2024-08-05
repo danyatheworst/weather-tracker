@@ -93,7 +93,7 @@ public class CookieInterceptor implements HandlerInterceptor {
         return !publicURIs.contains(url);
     }
 
-    private static String getSignInRedirectURI(HttpServletRequest request) throws UnsupportedEncodingException {
+    private static String getSignInRedirectURI(HttpServletRequest request) {
         String uri = request.getRequestURI();
         String q = request.getQueryString();
         if (q == null) {
