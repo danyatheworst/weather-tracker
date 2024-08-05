@@ -12,7 +12,6 @@ import org.springframework.web.servlet.HandlerInterceptor;
 
 import java.io.IOException;
 
-import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.time.Duration;
@@ -22,11 +21,11 @@ import java.util.Set;
 import java.util.UUID;
 
 @Component
-public class CookieInterceptor implements HandlerInterceptor {
+public class AuthorizationInterceptor implements HandlerInterceptor {
     private static final Set<String> publicURIs = Set.of("/", "/sign-in", "/sign-up");
     private final SessionService sessionService;
 
-    public CookieInterceptor(SessionService sessionService) {
+    public AuthorizationInterceptor(SessionService sessionService) {
         this.sessionService = sessionService;
     }
 

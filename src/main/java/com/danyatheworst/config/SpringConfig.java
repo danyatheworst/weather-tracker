@@ -1,11 +1,10 @@
 package com.danyatheworst.config;
 
-import com.danyatheworst.CookieInterceptor;
+import com.danyatheworst.AuthorizationInterceptor;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.core.env.Environment;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
@@ -24,11 +23,11 @@ import java.net.http.HttpClient;
 public class SpringConfig implements WebMvcConfigurer {
 
     private final ApplicationContext applicationContext;
-    private final CookieInterceptor cookieInterceptor;
+    private final AuthorizationInterceptor authorizationInterceptor;
 
-    public SpringConfig(ApplicationContext applicationContext, CookieInterceptor cookieInterceptor) {
+    public SpringConfig(ApplicationContext applicationContext, AuthorizationInterceptor authorizationInterceptor) {
         this.applicationContext = applicationContext;
-        this.cookieInterceptor = cookieInterceptor;
+        this.authorizationInterceptor = authorizationInterceptor;
     }
 
     @Bean
@@ -60,7 +59,7 @@ public class SpringConfig implements WebMvcConfigurer {
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(this.cookieInterceptor).addPathPatterns("/**");
+        registry.addInterceptor(this.authorizationInterceptor).addPathPatterns("/**");
     }
 
     @Bean
