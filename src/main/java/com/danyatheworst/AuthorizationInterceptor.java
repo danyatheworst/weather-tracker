@@ -12,6 +12,9 @@ import org.springframework.web.servlet.HandlerInterceptor;
 
 import java.io.IOException;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.Objects;
@@ -42,11 +45,12 @@ public class CookieInterceptor implements HandlerInterceptor {
                         this.sessionService.checkExpiration(session);
                         this.sessionService.updateExpirationTime(sessionId);
                         Cookie newCookie = new Cookie("sessionId", cookie.getValue());
-                        newCookie.setMaxAge(this.getCookieMaxAge(session.getExpiresAt()));
+                        newCookie.setMaxAge(getCookieMaxAge(session.getExpiresAt()));
                         response.addCookie(newCookie);
                         request.setAttribute("user", session.getUser());
                         if (isSigningURI(uri)) {
                             response.sendRedirect("/");
+                            return false;
                         }
                         return true;
                     } catch (InvalidParameterException | NotFoundException e) {
@@ -55,6 +59,7 @@ public class CookieInterceptor implements HandlerInterceptor {
                         }
                         if (isPrivateURI(uri)) {
                             response.sendRedirect(getSignInRedirectURI(request));
+                            return false;
                         }
                     }
                 }
@@ -62,11 +67,12 @@ public class CookieInterceptor implements HandlerInterceptor {
         }
         if (isPrivateURI(uri)) {
             response.sendRedirect(getSignInRedirectURI(request));
+            return false;
         }
         return true;
     }
 
-    private int getCookieMaxAge(LocalDateTime expirationTime) {
+    private static int getCookieMaxAge(LocalDateTime expirationTime) {
         Duration diff = Duration.between(expirationTime, LocalDateTime.now());
         return Math.abs((int) diff.getSeconds());
     }
@@ -87,12 +93,12 @@ public class CookieInterceptor implements HandlerInterceptor {
         return !publicURIs.contains(url);
     }
 
-    private static String getSignInRedirectURI(HttpServletRequest request) {
+    private static String getSignInRedirectURI(HttpServletRequest request) throws UnsupportedEncodingException {
         String uri = request.getRequestURI();
         String q = request.getQueryString();
         if (q == null) {
             return "sign-in?redirect_to=" + uri;
         }
-        return "sign-in?redirect_to=" + uri + "?" + q;
+        return "sign-in?redirect_to=" + uri + "?" + URLEncoder.encode(q, StandardCharsets.UTF_8);
     }
 }
