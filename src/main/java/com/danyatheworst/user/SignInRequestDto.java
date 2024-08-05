@@ -28,8 +28,4 @@ public class SignInRequestDto {
         this.login = login;
         this.password = password;
     }
-
-    public SignInRequestDto(String redirectTo) {
-        this.redirectTo = redirectTo;
-    }
 }

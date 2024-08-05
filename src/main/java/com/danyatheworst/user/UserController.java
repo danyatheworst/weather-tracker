@@ -13,12 +13,13 @@ import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.CookieValue;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.util.UriUtils;
 
+import java.nio.charset.StandardCharsets;
 import java.util.Objects;
 import java.util.UUID;
+
 
 @Controller
 public class UserController {
@@ -33,8 +34,12 @@ public class UserController {
     }
 
     @GetMapping("/sign-in")
-    public String signIp(Model model, HttpServletRequest request) {
-        SignInRequestDto signInRequestDto = new SignInRequestDto(request.getParameter("redirect_to"));
+    public String signIp(HttpServletRequest request, Model model) {
+        SignInRequestDto signInRequestDto = new SignInRequestDto();
+        if (request.getQueryString() != null) {
+            String redirectTo = "/" + request.getQueryString().split("=/")[1];
+            signInRequestDto.setRedirectTo(redirectTo);
+        }
         model.addAttribute("signInRequestDto", signInRequestDto);
         return "sign-in";
     }

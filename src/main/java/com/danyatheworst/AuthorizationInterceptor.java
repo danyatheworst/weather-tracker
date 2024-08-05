@@ -94,10 +94,10 @@ public class AuthorizationInterceptor implements HandlerInterceptor {
 
     private static String getSignInRedirectURI(HttpServletRequest request) {
         String uri = request.getRequestURI();
-        String q = request.getQueryString();
-        if (q == null) {
+        String qs = request.getQueryString();
+        if (qs == null) {
             return "sign-in?redirect_to=" + uri;
         }
-        return "sign-in?redirect_to=" + uri + "?" + URLEncoder.encode(q, StandardCharsets.UTF_8);
+        return "sign-in?redirect_to=" + uri + "?" + qs;
     }
 }
